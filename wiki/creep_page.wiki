@@ -6,3 +6,6 @@
 
 _Beta Creep_
 This is the current beta creep to be used for testing.
+
+=Links=
+<a href = "http://code.google.com/p/sdltowerdefense/wiki/index">Main Page</a>
