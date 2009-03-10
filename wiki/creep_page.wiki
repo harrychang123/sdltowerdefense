@@ -2,7 +2,7 @@
 
 = CREEPS =
 
-<img src = "http://i299.photobucket.com/albums/mm295/GothicPrincess143/GameCreep2.jpg">
+<img src = "http://i299.photobucket.com/albums/mm295/GothicPrincess143/Creep_Wiki.jpg">
 
 _Beta Creep_
 This is the current beta creep to be used for testing.
