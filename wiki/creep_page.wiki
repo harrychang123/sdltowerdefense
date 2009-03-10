@@ -4,8 +4,8 @@
 
 <img src = "http://i299.photobucket.com/albums/mm295/GothicPrincess143/Creep_Wiki.jpg">
 
-_Beta Creep_
-This is the current beta creep to be used for testing.
+_Test Creep_
+This is the current development creep to be used for testing.
 
 =Links=
 <a href = "http://code.google.com/p/sdltowerdefense/wiki/index">Main Page</a>
