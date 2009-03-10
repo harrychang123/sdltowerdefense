@@ -1,10 +1,10 @@
 #summary Main Page.
-
 = Introduction =
 
-Team Members: Scott Wright, Corey Ruda,Doug Lowery
+Team Members: 
+<p>Scott Wright, Corey Ruda,Doug Lowery</p>
 
-Project Name: sdltowerdefense
+<p>Project Name: sdltowerdefense</p>
 
 -*GAME IS UNDER CONSTRUCTION*-
 
