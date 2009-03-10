@@ -3,25 +3,24 @@
 // Authors     : Corey Ruda, Scott Wright, Doug Lowery
 // Version     : 0.0.1
 // Copyright   :
-// Description : Tower Defense Game in C++, using SDL
+// Description : Hello World in C++, Ansi-style
 //============================================================================
 
 /* Include Files for sdlTD*/
 #include <iostream>
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_ttf.h"
-/*
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
-*/
-
 #include "functions.h"
-//#include "constants.h"
+#include "constants.h"
 
 /* Namespaces */
 using namespace std;
+
+/*Global Variables*/
+
+//Creep Array
+SDL_Surface *creep[CREEP_DIRECTION][CREEP_FRAME];
 
 //Event structure
 SDL_Event event;
@@ -44,7 +43,7 @@ int main(int argc, char* args[]) {
 	{
 		while(SDL_PollEvent(&event))
 		{
-			if(event.type == SDL_QUIT) //If the uses Xs out, set quit to true
+			if(event.type == SDL_Quit) //If the uses Xs out, set quit to true
 				quit = true;
 		}
 	}
