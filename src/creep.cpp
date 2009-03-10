@@ -6,12 +6,23 @@
 //TODO: Add an immunities array
 //TODO: Create different types of creeps and set the creep type as an ID, if needed
 
-#ifndef CREEP_H
-#define CREEP_H
-
 //Include Files
 #include <vector>
 #include "creep.h"
+
+/********************************************************************************
+ Constructor
+********************************************************************************/
+
+Creep::Creep(int hp, int speed, int def, bool fly, int reward)
+{
+	//Initialize the Creep object
+	hit_points = hp;
+	move_speed = speed;
+	defense = def;
+	ground = fly;
+	prize = reward;
+}
 
 /********************************************************************************
 Getter Functions
