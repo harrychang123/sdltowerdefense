@@ -3,7 +3,7 @@
 // Authors     : Corey Ruda, Scott Wright, Doug Lowery
 // Version     : 0.0.1
 // Copyright   :
-// Description : Hello World in C++, Ansi-style
+// Description : sdlTD Main File
 //============================================================================
 
 /* Include Files for sdlTD*/
