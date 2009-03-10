@@ -9,6 +9,7 @@
 #define FUNCTIONS_H_
 
 #include "SDL/SDL.h"
+//#include "SDL.h"
 #include <string>
 
 std::string intToStr(int);

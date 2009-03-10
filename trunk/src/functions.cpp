@@ -7,9 +7,16 @@
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
+#include "SDL/SDL_ttf.h"
+/*
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_ttf.h"
+*/
 #include <string>
 #include <sstream>
 #include "functions.h"
+#include "constants.h"
 
 void clean_up()
 {//Delete all used surfaces
@@ -30,7 +37,10 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination, 
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 {//Applies the source surface to the destination surface
     //Blit
-    SDL_BlitSurface(source, clip, destination, &offset);
+	SDL_Rect offset;
+	offset.x = x;
+	offset.y = y;
+    SDL_BlitSurface(source, NULL, destination, &offset);
 }
 
 std::string intToStr(int a)
