@@ -11,3 +11,6 @@ Project Name: sdltowerdefense
 = Details =
 
 The game is currently under development.
+
+=Links=
+<a href= "http://code.google.com/p/sdltowerdefense/wiki/creep_page?ts=1236702051&updated=creep_page">Creeps</a>
