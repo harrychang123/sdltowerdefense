@@ -20,8 +20,6 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination, 
 {//Applies the source surface to the destination surface
     //Holds offsets
     SDL_Rect offset;
-
-    //Get offsets
     offset.x = x;
     offset.y = y;
 
