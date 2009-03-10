@@ -2,10 +2,7 @@
 
 = Introduction =
 
-Team Members:
-Scott Wright
-Corey Ruda
-Doug Lowery
+Team Members: Scott Wright, Corey Ruda,Doug Lowery
 
 Project Name: sdltowerdefense
 
