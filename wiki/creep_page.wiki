@@ -1,10 +1,9 @@
 #summary This is the Creep Page
 
 = CREEPS =
-
-<img src = "http://i299.photobucket.com/albums/mm295/GothicPrincess143/Creep_Wiki.jpg">
-
-_Test Creep_
+<table border = "0">
+   <tr>
+      <img src = "http://i299.photobucket.com/albums/mm295/GothicPrincess143/Creep_Wiki.jpg">   _Test Creep_
 This is the current development creep to be used for testing.
 
 =Links=
