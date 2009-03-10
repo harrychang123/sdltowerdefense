@@ -2,8 +2,8 @@
 //Filename: turret.h
 //This is the Turret Class
 
-#ifndef TURRET.H
-#define TURRET.H
+#ifndef TURRET_H
+#define TURRET_H
 
 class Turret
 {
@@ -42,3 +42,5 @@ public:
 	void set_up_cost(int);
 	void upgrade();
 };
+
+#endif /* TURRET_H */
