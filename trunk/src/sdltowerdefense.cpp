@@ -20,7 +20,7 @@ using namespace std;
 /*Global Variables*/
 
 //Creep Array
-SDL_Surface *creep_sprite[4][4];
+SDL_Surface *creep_sprite[CREEP_NUM][16];
 
 //Event structure
 SDL_Event event;
