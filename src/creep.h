@@ -2,6 +2,9 @@
 //Filename: creep.h
 //This is the creep class
 
+#ifndef CREEP_H
+#define CREEP_H
+
 class Creep
 {
 private:
