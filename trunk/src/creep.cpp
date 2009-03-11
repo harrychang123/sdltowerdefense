@@ -51,6 +51,12 @@ int Creep::get_prize()
 	return prize;
 }
 
+int Creep::get_type()
+{
+	//Return the value of creep_type
+	return creep_type;
+}
+
 bool Creep::get_ground()
 {
 	//Return the value ot ground
@@ -82,6 +88,12 @@ void Creep::set_prize(int num)
 {
 	//Set the prize of the creep
 	prize = num;
+}
+
+void Creep::set_type(int num)
+{
+	//Set the creep_type of the creep
+	creep_type = num;
 }
 
 void Creep::set_ground(bool value)
