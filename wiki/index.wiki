@@ -2,7 +2,7 @@
 = Introduction =
 
 Team Members: 
-<p>Scott Wright, Corey Ruda,Doug Lowery</p>
+<p>Scott Wright, Corey Ruda</p>
 
 <p>Project Name: sdltowerdefense</p>
 
