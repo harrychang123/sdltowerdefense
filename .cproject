@@ -33,6 +33,11 @@
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.1013869857" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1974520352" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
+<option id="gnu.cpp.link.option.libs.1347583142" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+<listOptionValue builtIn="false" value="SDL"/>
+<listOptionValue builtIn="false" value="SDL_image"/>
+<listOptionValue builtIn="false" value="SDL_ttf"/>
+</option>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.138165989" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 <additionalInput kind="additionalinput" paths="$(LIBS)"/>
