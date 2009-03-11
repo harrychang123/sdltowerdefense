@@ -10,10 +10,8 @@
 #include <iostream>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
-#include "SDL/SDL_ttf.h"
 //#include "SDL.h"
 //#include "SDL_image.h"
-//#include "SDL_ttf.h"
 #include "functions.h"
 #include "constants.h"
 
@@ -29,7 +27,8 @@ SDL_Surface *background = NULL;
 SDL_Surface *screen = NULL;
 
 //Creep Array
-SDL_Surface *creep_sprites[CREEP_NUM][16];
+SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
+SDL_Surface *creep_sprites[CREEP_NUM];
 
 //Event structure
 SDL_Event event;
@@ -75,24 +74,37 @@ int main(int argc, char* args[]) {
 }
 
 bool load_files()
-{
-	//TODO: Change this when he have files to load
-    //Load the files needed for the program
+{//Load the files needed for the program
 
 	background = load_image("background.bmp");
 
+	//TODO: Clean this up and make it work for more than 1 creep
 	//load Creep #1
 	SDL_Surface *tmpCreep = NULL;
-	//TODO: Split this up into a 4x4 25px x 25px
 
-    //font = TTF_OpenFont("lazy.ttf", 30);
+	//TODO: Store creep spritesheet filenames in an array
+	tmpCreep = load_image("creep1.bmp");
+	creep_sprites[0] = tmpCreep;
+	SDL_FreeSurface(tmpCreep);
 
+	//Split this up into a 4x4 25px x 25px
+	SDL_Rect tmpRect;
+	int tmp_x=0, tmp_y=0;
+	for(int i=0; i<4; i++)
+	{//row
+		tmp_x=i*25;
+		for(int j=0; j<4; j++)
+		{//col
+			tmp_y=j*25;
+			tmpRect.x=j;
+			tmpRect.y=i;
+			tmpRect.w=25;
+			tmpRect.h=25;
+			creep_sprite_offsets[0][j+4*i] = tmpRect;//Store the offsets in the array
+		}
+	}
     if(background == NULL)
         return false;
-
-    //if(font == NULL)
-        //return false;
-
     return true;
 }
 
@@ -105,9 +117,6 @@ bool init()
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
 
     if(screen == NULL)
-        return false;
-
-    if(TTF_Init() == -1)
         return false;
 
     SDL_WM_SetCaption(GAME_CAPTION.c_str(), NULL);
