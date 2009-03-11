@@ -8,12 +8,14 @@
 
 /* Include Files for sdlTD*/
 #include <iostream>
+#include <vector>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 //#include "SDL.h"
 //#include "SDL_image.h"
 #include "functions.h"
 #include "constants.h"
+#include "turret.h"
 
 /* Namespaces */
 using namespace std;
@@ -25,10 +27,16 @@ void clean_up();
 /*Global Variables*/
 SDL_Surface *background = NULL;
 SDL_Surface *screen = NULL;
+SDL_Surface *sidebar = NULL;
 
 //Creep Array
 SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
 SDL_Surface *creep_sprites[CREEP_NUM];
+
+//Turret Array
+SDL_Surface *turret_sprites[TURRET_NUM];
+SDL_Surface *turret_projectiles[TURRET_NUM];
+vector<Turret> turrets;
 
 //Event structure
 SDL_Event event;
@@ -44,16 +52,33 @@ int main(int argc, char* args[]) {
 	if(load_files() == false)
 		return 1;
 
+	Turret tmp(365, 157, 50, 0, 20, 1, 1.0);
+	turrets.push_back(tmp);
+
 	//The main loop.
 	while(quit == false)
 	{
 		/**************************************************************************
 		 EVENTS
-		**************************************************************************/
+		*************************************************************************/
 		while(SDL_PollEvent(&event))
 		{
 			if(event.type == SDL_QUIT) //If the user Xs out, quit
 				quit = true;
+			//If a mouse button was pressed
+			if(event.type == SDL_MOUSEBUTTONDOWN)
+			{//If the left mouse button was pressed
+				if(event.button.button == SDL_BUTTON_LEFT)
+				{//Get the mouse offsets
+					Point action;
+					action = check_click(event.button.x, event.button.y);
+					cout << action.x << " " << action.y  << " " << endl;//Outputs coords to screen!
+
+					/*TODO: Check to see if any towers are here, or if we are placing a
+					        tower.  Offload this to a function. */
+
+				}
+			}
 		}
 		/***************************************************************************
 		 LOGIC
@@ -64,6 +89,13 @@ int main(int argc, char* args[]) {
 		***************************************************************************/
 		//TODO: Add Rendering Code
 		apply_surface(0, 0, background, screen);
+		apply_surface(SCREEN_WIDTH-35, 0, sidebar, screen);
+
+		for(int i=0; i<(signed int)turrets.size(); i++)
+		{
+			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_x(), turret_sprites[0], screen);
+		}
+
 
 		if(SDL_Flip(screen)==-1)
 			return 1;
@@ -77,15 +109,17 @@ bool load_files()
 {//Load the files needed for the program
 
 	background = load_image("background.bmp");
+	sidebar = load_image("sidebar.bmp");
+
+	//load the first turret
+	turret_sprites[0] = load_image("turret1.bmp");
+	turret_projectiles[0] = load_image("turret1_projectile.bmp");
+
 
 	//TODO: Clean this up and make it work for more than 1 creep
 	//load Creep #1
-	SDL_Surface *tmpCreep = NULL;
-
 	//TODO: Store creep spritesheet filenames in an array
-	tmpCreep = load_image("creep1.bmp");
-	creep_sprites[0] = tmpCreep;
-	SDL_FreeSurface(tmpCreep);
+	creep_sprites[0] = load_image("creep1.bmp");
 
 	//Split this up into a 4x4 25px x 25px
 	SDL_Rect tmpRect;

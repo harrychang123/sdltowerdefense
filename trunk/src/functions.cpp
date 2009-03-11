@@ -18,6 +18,20 @@
 #include "functions.h"
 #include "constants.h"
 
+Point::Point()
+{
+	x=0;
+	y=0;
+	useful=true;
+}
+
+Point::Point(int a, int b)
+{
+	x = a;
+	y = b;
+	useful=true;
+}
+
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL)
 {//Applies the source surface to the destination surface
     //Holds offsets
@@ -70,4 +84,39 @@ SDL_Surface *load_image(std::string filename)
 
     //Return the optimized surface
     return optimizedImage;
+}
+
+Point check_click(int x, int y)
+{//Checks to see if the user clicked on anything.  If they did, return an action code
+	//Check so see if we clicked in the grid
+	Point tmp;
+	tmp = clicked_grid(x, y);
+	if(tmp.useful)
+	{
+		return tmp;//User clicked the grid
+	} else {
+		//user did not click the grid
+		Point crap(-1,-1);
+		crap.useful=false;
+		return crap;
+	}
+}
+
+Point clicked_grid(int x, int y)
+{//If user clicked a cell in the grid, returns the top left coords of that cell. Otherwise, useful=false
+	for(int a=1; a<= NUM_ROWS; a++)
+	{
+		for(int b=1; b<=NUM_COLUMNS; b++)
+		{
+			if(x>=1+26*(b-1) && x<=25+26*(b-1) && y>=1+26*(a-1) && y<=25+26*(a-1))//I hate this formula >_<
+			{//User clicked in square a,b (row,col)
+				//Return the top left corner of this cell
+				Point tmp(1+26*(b-1), 1+26*(a-1));
+				return tmp;
+			}
+		}
+	}
+	Point tmp;
+	tmp.useful = false;
+	return tmp;
 }

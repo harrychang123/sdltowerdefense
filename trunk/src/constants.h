@@ -13,10 +13,13 @@
 #include <string>
 
 /*Global Variables*/
-const int SCREEN_WIDTH     = 625;
+const int SCREEN_WIDTH     = 660;
 const int SCREEN_HEIGHT    = 469;
 const int SCREEN_BPP       = 32;
+const int NUM_ROWS         = 18;
+const int NUM_COLUMNS      = 24;
 const int CREEP_NUM        = 1;
+const int TURRET_NUM 	   = 1;
 const std::string GAME_CAPTION = "SDL Tower Defense";
 
 //Game State Constants

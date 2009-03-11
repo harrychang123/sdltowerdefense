@@ -14,8 +14,8 @@ private:
 	int cost_upgrade;//This is how much it is to upgrade the tower
 	int level;       //this is how upgraded the tower is
 	int range;       //This is how far the turret can shoot, TODO: determine pixel per int
-	int damage;     //How much damage the turret will do to a creep
-	double cooldown;//This is how long the tower has to wait before shooting again
+	int damage;      //How much damage the turret will do to a creep
+	double cooldown; //This is how long the tower has to wait before shooting again
 
 public:
 	//Class Turret prototypes
