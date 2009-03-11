@@ -10,11 +10,14 @@
 #ifndef CONSTANTS_H_
 #define CONSTANTS_H_
 
+#include <string>
+
 /*Global Variables*/
-const int SCREEN_WIDTH     = 640;
-const int SCREEN_HEIGHT    = 480;
+const int SCREEN_WIDTH     = 625;
+const int SCREEN_HEIGHT    = 469;
 const int SCREEN_BPP       = 32;
 const int CREEP_NUM        = 1;
+const std::string GAME_CAPTION = "SDL Tower Defense";
 
 //Game State Constants
 enum GameStates
@@ -26,8 +29,5 @@ enum GameStates
 	STATE_PLAYING,
 	STATE_PAUSED
 };
-
-//The screen
-SDL_Surface *screen = NULL;
 
 #endif /* CONSTANTS_H_ */

@@ -13,11 +13,8 @@
 #include <string>
 
 std::string intToStr(int);
-bool init();
-bool load_files();
 SDL_Surface* load_image(std::string);
 void apply_surface(int, int, SDL_Surface*, SDL_Surface*, SDL_Rect*);
 void apply_surface(int, int, SDL_Surface*, SDL_Surface*);
-void clean_up();
 
 #endif /* FUNCTIONS_H_ */
