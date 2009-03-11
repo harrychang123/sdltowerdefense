@@ -71,20 +71,3 @@ SDL_Surface *load_image(std::string filename)
     //Return the optimized surface
     return optimizedImage;
 }
-
-SDL_Surface *optimize_image(SDL_Surface* source)
-{
-	SDL_Surface *optimizedImage = NULL;
-	optimizedImage = SDL_DisplayFormat(source);
-	SDL_FreeSurface(source);
-
-	if(optimizedImage!=NULL)
-	{
-		//Color key surface
-		SDL_SetColorKey(optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, 0, 0xFF, 0xFF));
-	}
-
-	return optimizedImage;
-}
-
-
