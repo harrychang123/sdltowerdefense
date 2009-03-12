@@ -9,34 +9,44 @@
 /* Include Files for sdlTD*/
 #include <iostream>
 #include <vector>
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-//#include "SDL.h"
-//#include "SDL_image.h"
+//#include "SDL/SDL.h"
+//#include "SDL/SDL_image.h"
+#include "SDL.h"
+#include "SDL_image.h"
 #include "functions.h"
 #include "constants.h"
 #include "turret.h"
+#include "creep.h"
+#include "timer.h"
 
 /* Namespaces */
 using namespace std;
 
+//Function Prototypes
 bool load_files();
 bool init();
 void clean_up();
+void creep_clips();
+void set_creep_clip(int,int,int);
 
 /*Global Variables*/
+//The Screens pointers
 SDL_Surface *background = NULL;
 SDL_Surface *screen = NULL;
 SDL_Surface *sidebar = NULL;
 
-//Creep Array
+//Creep Arrays
 SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
 SDL_Surface *creep_sprites[CREEP_NUM];
+vector<Creep> creeps;
 
 //Turret Array
 SDL_Surface *turret_sprites[TURRET_NUM];
 SDL_Surface *turret_projectiles[TURRET_NUM];
 vector<Turret> turrets;
+
+//FPS Regulator
+Timer fps;
 
 //Event structure
 SDL_Event event;
@@ -52,12 +62,24 @@ int main(int argc, char* args[]) {
 	if(load_files() == false)
 		return 1;
 
+	//Set the creeps clips
+	creep_clips();
+
+	//Initialize test objects
 	Turret tmp(365, 157, 50, 0, 20, 1, 1.0);
+	Creep ctmp(261,442, 30,5, 0, false, 3);
+	creeps.push_back(ctmp);
 	turrets.push_back(tmp);
+
+	//Set default direction
+	int direction = CREEP_NORTH;
 
 	//The main loop.
 	while(quit == false)
 	{
+		//Starts FPS management
+		fps.start();
+
 		/**************************************************************************
 		 EVENTS
 		*************************************************************************/
@@ -67,7 +89,8 @@ int main(int argc, char* args[]) {
 				quit = true;
 			//If a mouse button was pressed
 			if(event.type == SDL_MOUSEBUTTONDOWN)
-			{//If the left mouse button was pressed
+			{
+				//If the left mouse button was pressed
 				if(event.button.button == SDL_BUTTON_LEFT)
 				{//Get the mouse offsets
 					Point action;
@@ -84,6 +107,10 @@ int main(int argc, char* args[]) {
 		 LOGIC
 		***************************************************************************/
 		//TODO: Add Logic Code
+
+		for(int i=0; i < (signed int)creeps.size(); i++)
+			creeps.at(i).move(direction);//calls the add_frame function in Creeps
+
 		/***************************************************************************
 		RENDERING
 		***************************************************************************/
@@ -96,9 +123,23 @@ int main(int argc, char* args[]) {
 			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_x(), turret_sprites[0], screen);
 		}
 
+		//Loops through each creep in the creep vector and renders it
+		//TODO:Figure out why i cant add more then one creep on screen
+		for(int i = 0; i < (signed int)creeps.size();i++)
+		{
+			creeps.at(i).show(creeps.at(i).get_x(),creeps.at(i).get_y(),creep_sprites[i],screen,&creep_sprite_offsets[i][creeps.at(i).get_frame()]);
+		}
 
+		//Update the screen.
 		if(SDL_Flip(screen)==-1)
 			return 1;
+
+		//Regulate the Frames Per SEcond(FPS = 30 Cap)
+		if((fps.get_ticks() < 1000 / FRAMES_PER_SECOND))
+		{
+			//Delay the frames
+			SDL_Delay((10000 / FRAMES_PER_SECOND) - fps.get_ticks());
+		}
 	}
 
 	clean_up();
@@ -119,7 +160,7 @@ bool load_files()
 	//TODO: Clean this up and make it work for more than 1 creep
 	//load Creep #1
 	//TODO: Store creep spritesheet filenames in an array
-	creep_sprites[0] = load_image("creep1.bmp");
+		creep_sprites[0] = load_image("creep1.bmp");
 
 	//Split this up into a 4x4 25px x 25px
 	SDL_Rect tmpRect;
@@ -160,4 +201,69 @@ bool init()
 void clean_up()
 {//Delete all used surfaces
 	SDL_FreeSurface(screen);
+}
+
+//Sets the clips for the creep
+void creep_clips()
+{
+	//Local Variable
+	int row = 0;
+	//For int i to creep number
+	for(int i = 0;i < CREEP_NUM; i++)
+	{
+		//Set the Creeps sprite int the SDL_RECT based on the creeps number
+		for(int n = 0;n < 4;n++) //Loops throught the frames
+		{
+			set_creep_clip(i,n,row);
+		}
+		row++;
+	}
+}
+
+
+void set_creep_clip(int creep,int sprite,int row)
+{
+	//TODO: Find a better way to set up these sprite clips
+	//Set the first row of clips
+	//(Facing North)
+	creep_sprite_offsets[creep][0].x = 0;
+	creep_sprite_offsets[creep][0].y = 0;
+	creep_sprite_offsets[creep][0].w = CREEP_WIDTH;
+	creep_sprite_offsets[creep][0].h = CREEP_HEIGHT;
+
+	creep_sprite_offsets[creep][1].x = CREEP_WIDTH;
+	creep_sprite_offsets[creep][1].y = 0;
+	creep_sprite_offsets[creep][1].w = CREEP_WIDTH;
+	creep_sprite_offsets[creep][1].h = CREEP_HEIGHT;
+
+	creep_sprite_offsets[creep][2].x = CREEP_WIDTH*2;
+	creep_sprite_offsets[creep][2].y = 0;
+	creep_sprite_offsets[creep][2].w = CREEP_WIDTH;
+	creep_sprite_offsets[creep][2].h = CREEP_HEIGHT;
+
+	creep_sprite_offsets[creep][3].x = CREEP_WIDTH*3;
+	creep_sprite_offsets[creep][3].y = 0;
+	creep_sprite_offsets[creep][3].w = CREEP_WIDTH;
+	creep_sprite_offsets[creep][3].h = CREEP_HEIGHT;
+
+	creep_sprite_offsets[creep][4].x = 0;
+	creep_sprite_offsets[creep][4].y = CREEP_HEIGHT;
+	creep_sprite_offsets[creep][4].w = CREEP_WIDTH;
+	creep_sprite_offsets[creep][4].h = CREEP_HEIGHT;
+
+	creep_sprite_offsets[creep][5].x = CREEP_WIDTH;
+	creep_sprite_offsets[creep][5].y = CREEP_HEIGHT;
+	creep_sprite_offsets[creep][5].w = CREEP_WIDTH;
+	creep_sprite_offsets[creep][5].h = CREEP_HEIGHT;
+
+	creep_sprite_offsets[creep][6].x = CREEP_WIDTH*2;
+	creep_sprite_offsets[creep][6].y = CREEP_HEIGHT;
+	creep_sprite_offsets[creep][6].w = CREEP_WIDTH;
+	creep_sprite_offsets[creep][6].h = CREEP_HEIGHT;
+
+	creep_sprite_offsets[creep][7].x = CREEP_WIDTH*3;
+	creep_sprite_offsets[creep][7].y = CREEP_HEIGHT;
+	creep_sprite_offsets[creep][7].w = CREEP_WIDTH;
+	creep_sprite_offsets[creep][7].h = CREEP_HEIGHT;
+
 }

@@ -5,6 +5,10 @@
 #ifndef CREEP_H
 #define CREEP_H
 
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_ttf.h"
+
 class Creep
 {
 private:
@@ -14,10 +18,15 @@ private:
 	int defense;    //How much damage is reduced from tower damage
 	bool ground;    //Is the creep a ground unit or air unit
 	int prize;      //How much the creep gives when killed
+	int xpos;       //X position of the creep
+	int ypos;       //Y position of the creep
+	int frame;      //What frame of animation the creep is on
+	int creep_id;   //The Creeps ID
+	int face;       //This is the direction the creep is facing
 
 public:
 	//Class Constructor
-	Creep(int,int,int,bool,int);
+	Creep(int,int,int,int,int,bool,int);
 
 	//Getter function prototypes
 	int get_hp();
@@ -26,6 +35,9 @@ public:
 	int get_prize();
 	int get_type();
 	bool get_ground();
+	int get_x();
+	int get_y();
+	int get_frame();
 
 	//Setter Function prototypes
 	void set_hp(int);
@@ -34,6 +46,12 @@ public:
 	void set_prize(int);
 	void set_type(int);
 	void set_ground(bool);
+	void set_x(int);
+	void set_y(int);
+
+	//Member Functions
+	void move(int);
+	void show(int,int,SDL_Surface*,SDL_Surface*,SDL_Rect*);
 
 };
 #endif /*CREEP_H*/

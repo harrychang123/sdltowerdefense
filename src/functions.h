@@ -8,9 +8,11 @@
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
 
-#include "SDL/SDL.h"
-//#include "SDL.h"
+//#include "SDL/SDL.h"
+#include "SDL.h"
+#include "SDL_image.h"
 #include <string>
+#include "constants.h"
 
 std::string intToStr(int);
 SDL_Surface* load_image(std::string);
