@@ -18,18 +18,28 @@ const int SCREEN_HEIGHT    = 469;
 const int SCREEN_BPP       = 32;
 const int NUM_ROWS         = 18;
 const int NUM_COLUMNS      = 24;
-const int CREEP_NUM        = 1;
+const int CREEP_NUM        = 2;
 const int TURRET_NUM 	   = 1;
 const std::string GAME_CAPTION = "SDL Tower Defense";
+
+//Creep Pixel Determinations
+const int CREEP_WIDTH      = 25;
+const int CREEP_HEIGHT     = 25;
+const int CREEP_NORTH      = 0;
+const int CREEP_EAST       = 1;
+const int CREEP_SOUTH      = 2;
+const int CREEP_WEST       = 3;
+
+//Frams per second
+const int FRAMES_PER_SECOND = 30;
 
 //Game State Constants
 enum GameStates
 {
 	STATE_NULL,
-	STATE_INIT,
 	STATE_EXIT,
 	STATE_MENU,
-	STATE_PLAYING,
+	STATE_GAMEPLAY,
 	STATE_PAUSED
 };
 

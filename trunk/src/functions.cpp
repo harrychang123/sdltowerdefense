@@ -5,14 +5,14 @@
  *      Author: CPress.Scott
  */
 
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
-#include "SDL/SDL_ttf.h"
-/*
+//#include "SDL/SDL.h"
+//#include "SDL/SDL_image.h"
+//#include "SDL/SDL_ttf.h"
+
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
-*/
+
 #include <string>
 #include <sstream>
 #include "functions.h"
@@ -33,8 +33,10 @@ Point::Point(int a, int b)
 }
 
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL)
-{//Applies the source surface to the destination surface
-    //Holds offsets
+{
+	//Applies the source surface to the destination surface
+
+	//Holds offsets
     SDL_Rect offset;
     offset.x = x;
     offset.y = y;

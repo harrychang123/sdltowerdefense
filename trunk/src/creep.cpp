@@ -9,12 +9,16 @@
 //Include Files
 #include <vector>
 #include "creep.h"
+#include "functions.h"
+
+//Creep Next Num
+int creep_next_num = 0;
 
 /********************************************************************************
  Constructor
 ********************************************************************************/
 
-Creep::Creep(int hp, int speed, int def, bool fly, int reward)
+Creep::Creep(int x,int y,int hp, int speed, int def, bool fly, int reward)
 {
 	//Initialize the Creep object
 	hit_points = hp;
@@ -22,6 +26,11 @@ Creep::Creep(int hp, int speed, int def, bool fly, int reward)
 	defense = def;
 	ground = fly;
 	prize = reward;
+	xpos = x;
+	ypos = y;
+	frame = 0;
+	creep_id = creep_next_num;
+	creep_next_num ++;
 }
 
 /********************************************************************************
@@ -63,6 +72,23 @@ bool Creep::get_ground()
 	return ground;
 }
 
+int Creep::get_x()
+{
+	//Returns the xposition
+	return xpos;
+}
+
+int Creep::get_y()
+{
+	//Retuns the y position
+	return ypos;
+}
+
+int Creep::get_frame()
+{
+	//Returns the current frame that the creep is on
+	return frame;
+}
 /*********************************************************************************
 Setter Functions
 **********************************************************************************/
@@ -101,3 +127,60 @@ void Creep::set_ground(bool value)
 	//Set the ground to true or false
 	ground = value;
 }
+
+void Creep::set_x(int num)
+{
+	//Sets the x position of the creep
+	xpos = num;
+}
+
+void Creep::set_y(int num)
+{
+	//Sets the y position of the creep
+	ypos = num;
+}
+
+/****************************************************************************************
+Member Functions
+****************************************************************************************/
+
+void Creep::move(int state)
+{
+	//TODO: Finish direction detection and set up movements for corresponding directions
+	//Determine the direction the creep is moving
+
+	//If adding a frame wont go over, add one to the frame. otherwise, reset
+	switch(state)
+	case CREEP_NORTH:
+	{
+		if((frame+1) > 3)
+		{
+			frame = 0;
+		}
+		else
+		{
+			frame ++;
+		}
+		set_y(get_y() - get_move());
+		break;
+	case CREEP_EAST:
+		if((frame > 3) && ((frame+1) < 7))
+		{
+			frame ++;
+			set_x(get_x()+get_move());
+			set_y(get_y());
+		}
+		else
+		{
+			frame = 4;
+		}
+		break;
+	}
+}
+
+void Creep::show(int xpos,int ypos,SDL_Surface* source,SDL_Surface* destination,SDL_Rect* sprite)
+{
+	//Renders the creep to the screen
+	apply_surface(xpos,ypos,source,destination,sprite);
+}
+
