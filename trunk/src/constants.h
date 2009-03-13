@@ -30,6 +30,16 @@ const int CREEP_EAST       = 1;
 const int CREEP_SOUTH      = 2;
 const int CREEP_WEST       = 3;
 
+//Constants that affect the creep
+const bool CREEP_SLOWED     = true;
+
+//Slow Movement constants
+const int SLOW_MOVE        = 1;
+const int SLOW_COOLDOWN    = 3;
+
+//Maximun number of frames - 1 to wait before animation a creep
+const int MOVE_SCALE       = 10;
+
 //Frams per second
 const int FRAMES_PER_SECOND = 30;
 
