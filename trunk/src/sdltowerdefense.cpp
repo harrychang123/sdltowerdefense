@@ -38,6 +38,7 @@ void set_creep_clip(int,int,int);
 SDL_Surface *background = NULL;
 SDL_Surface *screen = NULL;
 SDL_Surface *sidebar = NULL;
+SDL_Surface *blank_surface = NULL;//used for creating 25x25 sprite blits (formats surface)
 
 //Creep Arrays
 SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
@@ -45,7 +46,7 @@ SDL_Surface *creep_sprites[CREEP_NUM];
 vector<Creep> creeps;
 
 //Turret Array
-SDL_Surface *turret_sprites[TURRET_NUM];
+SDL_Surface *turret_sprites[TURRET_NUM][3];
 SDL_Surface *turret_projectiles[TURRET_NUM];
 vector<Turret> turrets;
 
@@ -71,7 +72,7 @@ int main(int argc, char* args[]) {
 
 	//Initialize test objects
 	Turret tmp(365, 157, 50, 0, 20, 1, 1.0);
-	Creep ctmp(261,442, 30,5, 0, false, 3);
+	Creep ctmp(261,442, 30, 2, 0, false, 3);
 	creeps.push_back(ctmp);
 	turrets.push_back(tmp);
 
@@ -124,7 +125,7 @@ int main(int argc, char* args[]) {
 
 		for(int i=0; i<(signed int)turrets.size(); i++)
 		{
-			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_x(), turret_sprites[0], screen);
+			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_x(), turret_sprites[0][0], screen);
 		}
 
 		//Loops through each creep in the creep vector and renders it
@@ -132,7 +133,12 @@ int main(int argc, char* args[]) {
 		for(int i = 0; i < (signed int)creeps.size();i++)
 		{
 			creeps.at(i).show(creeps.at(i).get_x(),creeps.at(i).get_y(),creep_sprites[i],screen,&creep_sprite_offsets[i][creeps.at(i).get_frame()]);
+			if(creeps.at(i).get_y() < -24)
+			{
+				creeps.at(i).set_y(SCREEN_HEIGHT);
+			}
 		}
+
 
 		//Update the screen.
 		if(SDL_Flip(screen)==-1)
@@ -142,7 +148,7 @@ int main(int argc, char* args[]) {
 		if((fps.get_ticks() < 1000 / FRAMES_PER_SECOND))
 		{
 			//Delay the frames
-			SDL_Delay((10000 / FRAMES_PER_SECOND) - fps.get_ticks());
+			SDL_Delay((1000 / FRAMES_PER_SECOND) - fps.get_ticks());
 		}
 	}
 
@@ -156,8 +162,30 @@ bool load_files()
 	background = load_image("background.bmp");
 	sidebar = load_image("sidebar.bmp");
 
+
 	//load the first turret
-	turret_sprites[0] = load_image("turret1.bmp");
+	blank_surface = load_image("blank.bmp");
+	turret_sprites[0][0] = load_image("turret1.bmp");
+
+	//This loop loads the turret sprite sheet, and then loads each sprite into the turret_sprites array
+	SDL_Surface *turret_sprite_sheet = NULL;
+	turret_sprite_sheet = load_image("turret_sprite.bmp");
+	for(int a=0; a<TURRET_NUM; a++)
+	{
+		for(int b=0; b<3; b++)
+		{
+			SDL_Surface *tmp = NULL;
+			SDL_Rect myRect;
+			myRect.x=b*25;
+			myRect.y=a*25;
+			myRect.h=25;
+			myRect.w=25;
+			tmp = blank_surface;//make it 25x25, and formatted.
+			apply_surface(0, 0, turret_sprite_sheet, turret_sprites[a][b], &myRect);
+		}
+	}
+
+
 	turret_projectiles[0] = load_image("turret1_projectile.bmp");
 
 
