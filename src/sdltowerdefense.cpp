@@ -6,13 +6,17 @@
 // Description : sdlTD Main File
 //============================================================================
 
+#ifndef _WIN32
+	#include "SDL/SDL.h"
+	#include "SDL/SDL_image.h"
+#else
+	#include "SDL.h"
+	#include "SDL_image.h"
+#endif
+
 /* Include Files for sdlTD*/
 #include <iostream>
 #include <vector>
-//#include "SDL/SDL.h"
-//#include "SDL/SDL_image.h"
-#include "SDL.h"
-#include "SDL_image.h"
 #include "functions.h"
 #include "constants.h"
 #include "turret.h"

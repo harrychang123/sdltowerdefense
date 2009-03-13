@@ -5,9 +5,13 @@
 #ifndef CREEP_H
 #define CREEP_H
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
+#ifndef _WIN32
+	#include "SDL/SDL.h"
+	#include "SDL/SDL_image.h"
+#else
+	#include "SDL.h"
+	#include "SDL_image.h"
+#endif
 
 class Creep
 {

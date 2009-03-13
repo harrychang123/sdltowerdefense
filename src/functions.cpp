@@ -5,13 +5,13 @@
  *      Author: CPress.Scott
  */
 
-//#include "SDL/SDL.h"
-//#include "SDL/SDL_image.h"
-//#include "SDL/SDL_ttf.h"
-
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
+#ifndef _WIN32
+	#include "SDL/SDL.h"
+	#include "SDL/SDL_image.h"
+#else
+	#include "SDL.h"
+	#include "SDL_image.h"
+#endif
 
 #include <string>
 #include <sstream>

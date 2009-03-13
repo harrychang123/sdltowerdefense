@@ -8,9 +8,14 @@
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
 
-//#include "SDL/SDL.h"
-#include "SDL.h"
-#include "SDL_image.h"
+#ifndef _WIN32
+	#include "SDL/SDL.h"
+	#include "SDL/SDL_image.h"
+#else
+	#include "SDL.h"
+	#include "SDL_image.h"
+#endif
+
 #include <string>
 #include "constants.h"
 

@@ -6,9 +6,13 @@
  */
 
 #include "timer.h"
-#include "SDL.h"
-#include "SDL_ttf.h"
-#include "SDL_image.h"
+#ifndef _WIN32
+	#include "SDL/SDL.h"
+	#include "SDL/SDL_image.h"
+#else
+	#include "SDL.h"
+	#include "SDL_image.h"
+#endif
 
 /***************************************************
 The Constructor
