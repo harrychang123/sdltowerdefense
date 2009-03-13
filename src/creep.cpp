@@ -10,6 +10,7 @@
 #include <vector>
 #include "creep.h"
 #include "functions.h"
+#include "constants.h"
 
 //Creep Next Num
 int creep_next_num = 0;
@@ -18,7 +19,7 @@ int creep_next_num = 0;
  Constructor
 ********************************************************************************/
 
-Creep::Creep(int x,int y,int hp, int speed, int def, bool fly, int reward)
+Creep::Creep(int x,int y,int hp, int speed, int cd,int def, bool fly, int reward)
 {
 	//Initialize the Creep object
 	hit_points = hp;
@@ -31,11 +32,19 @@ Creep::Creep(int x,int y,int hp, int speed, int def, bool fly, int reward)
 	frame = 0;
 	creep_id = creep_next_num;
 	creep_next_num ++;
+	cooldown = cd;
+	slowed = false;
 }
 
 /********************************************************************************
 Getter Functions
 ********************************************************************************/
+int Creep::get_cooldown()
+{
+	//Returns the creeps cooldown
+	return cooldown;
+}
+
 int Creep::get_hp()
 {
 	//Return the value of Hit Points
@@ -92,6 +101,12 @@ int Creep::get_frame()
 /*********************************************************************************
 Setter Functions
 **********************************************************************************/
+void Creep::set_cooldown(int num)
+{
+	//Changes the creeps cooldown
+	cooldown = num;
+}
+
 void Creep::set_hp(int num)
 {
 	//Set HP
@@ -149,19 +164,33 @@ void Creep::move(int state)
 	//TODO: Finish direction detection and set up movements for corresponding directions
 	//Determine the direction the creep is moving
 
+	//Frame Setting controller
+	static int rate = 0;
+
 	//If adding a frame wont go over, add one to the frame. otherwise, reset
 	switch(state)
 	case CREEP_NORTH:
 	{
-		if((frame+1) > 3)
+		if(rate == (MOVE_SCALE - get_cooldown()))
 		{
-			frame = 0;
+			if((frame+1) > 3)
+			{
+				frame = 0;
+				set_y(get_y() - get_move());
+			}
+			else
+			{
+				frame ++;
+				rate = 0;
+				set_y(get_y() - get_move());
+			}
 		}
 		else
 		{
-			frame ++;
+			rate ++;
+			break;
 		}
-		set_y(get_y() - get_move());
+
 		break;
 	case CREEP_EAST:
 		if((frame > 3) && ((frame+1) < 7))
@@ -184,3 +213,8 @@ void Creep::show(int xpos,int ypos,SDL_Surface* source,SDL_Surface* destination,
 	apply_surface(xpos,ypos,source,destination,sprite);
 }
 
+void Creep::slow()
+{
+	//This changes the creeps state
+	slowed = (!slowed);
+}

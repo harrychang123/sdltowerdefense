@@ -72,7 +72,7 @@ int main(int argc, char* args[]) {
 
 	//Initialize test objects
 	Turret tmp(365, 157, 50, 0, 20, 1, 1.0);
-	Creep ctmp(261,442, 30, 2, 0, false, 3);
+	Creep ctmp(261,442, 30, 2,5, 0, false, 3);
 	creeps.push_back(ctmp);
 	turrets.push_back(tmp);
 
@@ -100,6 +100,11 @@ int main(int argc, char* args[]) {
 				{//Get the mouse offsets
 					Point action;
 					action = check_click(event.button.x, event.button.y);
+
+					//TODO: Fix how a creep is slowed down
+					//Testing Creep Slowed
+					//creeps.at(0).slow();
+
 					cout << action.x << " " << action.y  << " " << endl;//Outputs coords to screen!
 
 					/*TODO: Check to see if any towers are here, or if we are placing a
