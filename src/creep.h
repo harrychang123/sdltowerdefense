@@ -22,6 +22,7 @@ private:
 	int cooldown;   //How many frames the creep has to wait before moving
 	int defense;    //How much damage is reduced from tower damage
 	bool ground;    //Is the creep a ground unit or air unit
+	bool dead;		//true if the creep is dead
 	int prize;      //How much the creep gives when killed
 	int xpos;       //X position of the creep
 	int ypos;       //Y position of the creep
@@ -41,10 +42,12 @@ public:
 	int get_prize();
 	int get_type();
 	bool get_ground();
+	bool is_dead();
 	int get_x();
 	int get_y();
 	int get_frame();
 	int get_cooldown();
+	int get_id();
 
 	//Setter Function prototypes
 	void set_hp(int);
@@ -56,6 +59,7 @@ public:
 	void set_x(int);
 	void set_y(int);
 	void set_cooldown(int);
+	void die();
 
 	//Member Functions
 	void move(int);

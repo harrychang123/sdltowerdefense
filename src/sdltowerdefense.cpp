@@ -22,6 +22,7 @@
 #include "turret.h"
 #include "creep.h"
 #include "timer.h"
+#include "projectile.h"
 
 /* Namespaces */
 using namespace std;
@@ -49,6 +50,7 @@ vector<Creep> creeps;
 SDL_Surface *turret_sprites[TURRET_NUM][3];
 SDL_Surface *turret_projectiles[TURRET_NUM];
 vector<Turret> turrets;
+vector<Projectile> projectiles;
 
 //FPS Regulator
 Timer fps;
@@ -72,7 +74,7 @@ int main(int argc, char* args[]) {
 
 	//Initialize test objects
 	Turret tmp(365, 157, 50, 0, 20, 1, 1.0);
-	Creep ctmp(261,442, 30, 2,5, 0, false, 3);
+	Creep ctmp(261,442, 300, 2,5, 0, false, 3);
 	creeps.push_back(ctmp);
 	turrets.push_back(tmp);
 
@@ -105,12 +107,21 @@ int main(int argc, char* args[]) {
 					//Testing Creep Slowed
 					//creeps.at(0).slow();
 
+
 					cout << action.x << " " << action.y  << " " << endl;//Outputs coords to screen!
 
 					/*TODO: Check to see if any towers are here, or if we are placing a
 					        tower.  Offload this to a function. */
 
 				}
+			}
+			if(event.type == SDL_MOUSEMOTION)
+			{
+				//TODO: Take this out.  It is temporary to test projectiles (Creates a projectile at mouse everytime it moves)
+				Projectile tmp_proj(event.motion.x, event.motion.y, 12.0, &creeps.at(0));
+				tmp_proj.set_damage(1);
+				projectiles.push_back(tmp_proj);
+
 			}
 		}
 		/***************************************************************************
@@ -121,12 +132,26 @@ int main(int argc, char* args[]) {
 		for(int i=0; i < (signed int)creeps.size(); i++)
 			creeps.at(i).move(direction);//calls the add_frame function in Creeps
 
+		//Move the projectiles
+		if(projectiles.size()>=1)//Out-of-bounds error if we don't check the size
+		{
+			for(int proj=0; proj < (signed int) projectiles.size(); proj++)
+			{
+				if(projectiles.at(proj).is_disabled())
+				{
+					//Delete this projectile
+					projectiles.erase(projectiles.begin() + proj);
+				} else {
+					projectiles.at(proj).move();
+				}
+			}
+		}
+
 		/***************************************************************************
 		RENDERING
 		***************************************************************************/
 		//TODO: Add Rendering Code
 		apply_surface(0, 0, background, screen);
-		apply_surface(SCREEN_WIDTH-35, 0, sidebar, screen);
 
 		for(int i=0; i<(signed int)turrets.size(); i++)
 		{
@@ -144,6 +169,19 @@ int main(int argc, char* args[]) {
 			}
 		}
 
+		//Draw the projectiles
+		if(projectiles.size()>=1)//Out-of-bounds error if we don't check the size of the array
+		{
+			for(int pr=0; pr < (signed int) projectiles.size(); pr++)
+			{
+				//If not disabled
+				if(!projectiles.at(pr).is_disabled())
+					apply_surface(projectiles.at(pr).get_x(), projectiles.at(pr).get_y(), turret_projectiles[projectiles.at(pr).get_type()], screen);
+			}
+		}
+
+		//Draw the sidebar last
+		apply_surface(SCREEN_WIDTH-35, 0, sidebar, screen);
 
 		//Update the screen.
 		if(SDL_Flip(screen)==-1)

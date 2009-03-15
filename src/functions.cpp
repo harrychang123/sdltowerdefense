@@ -17,6 +17,7 @@
 #include <sstream>
 #include "functions.h"
 #include "constants.h"
+#include <math.h>
 
 Point::Point()
 {
@@ -122,3 +123,15 @@ Point clicked_grid(int x, int y)
 	tmp.useful = false;
 	return tmp;
 }
+
+double distance(int x2, int x1, int y2, int y1)
+{
+	return sqrt(pow(x2-x1, 2)+pow(y2-y1, 2));
+}
+
+double distance(double x2, double x1, double y2, double y1)
+{
+	return sqrt(pow(x2-x1, 2)+pow(y2-y1, 2));
+}
+
+

@@ -34,6 +34,7 @@ Creep::Creep(int x,int y,int hp, int speed, int cd,int def, bool fly, int reward
 	creep_next_num ++;
 	cooldown = cd;
 	slowed = false;
+	dead = false;
 }
 
 /********************************************************************************
@@ -97,6 +98,12 @@ int Creep::get_frame()
 {
 	//Returns the current frame that the creep is on
 	return frame;
+}
+
+int Creep::get_id()
+{
+	//Returns the creep_id
+	return creep_id;
 }
 /*********************************************************************************
 Setter Functions
@@ -217,4 +224,17 @@ void Creep::slow()
 {
 	//This changes the creeps state
 	slowed = (!slowed);
+}
+
+void Creep::die()
+{
+	//Kills the creep
+	//TODO: Remove the creep from the array in main.
+	hit_points = 0;
+	dead = true;
+}
+
+bool Creep::is_dead()
+{
+	return dead;
 }
