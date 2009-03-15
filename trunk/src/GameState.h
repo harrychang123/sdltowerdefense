@@ -1,4 +1,4 @@
-//Author: Corey Ruda
+//Author: CoreyRuda
 //Filename: GameState.h
 //This is the game state class
 //TODO: Implement Class GameState

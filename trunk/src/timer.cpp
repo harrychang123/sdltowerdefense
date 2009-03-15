@@ -1,5 +1,5 @@
 /*
- * Author: Corey Ruda
+ * Author: CoreyRuda
  * Filename: timer.cpp
  *
  * This is the source file for the Timer class

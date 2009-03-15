@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : sdltowerdefense.cpp
-// Authors     : Corey Ruda, Scott Wright, Doug Lowery
+// Authors     : CoreyRuda, CPress.Scott
 // Version     : 0.0.1
 // Copyright   :
 // Description : sdlTD Main File
