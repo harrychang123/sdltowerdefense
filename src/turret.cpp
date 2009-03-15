@@ -1,4 +1,4 @@
-//Author: Corey Ruda
+//Author: CoreyRuda, CPress.Scott
 //Filename: turret.cpp
 //This is the Turret Class Functions
 //TODO: Determine the max level that a tower can be upgraded to

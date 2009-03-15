@@ -1,4 +1,4 @@
-//Author: Corey Ruda
+//Author: CoreyRuda, CPress.Scott
 //Filename: turret.h
 //This is the Turret Class
 

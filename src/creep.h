@@ -1,4 +1,4 @@
-//Author: Corey Ruda
+//Author: CoreyRuda, CPress.Scott
 //Filename: creep.h
 //This is the creep class
 

@@ -2,7 +2,7 @@
  * constants.h
  *
  *  Created on: Mar 9, 2009
- *      Author: CPress.Scott
+ *      Author: CPress.Scott, CoreyRuda
  */
 //TODO: Add Nessecarry Game Stats as needed to enum GameStates
 //TODO: Change all CREEP_NUM to a set number

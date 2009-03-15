@@ -1,5 +1,5 @@
 /*
- * Author: Corey Ruda
+ * Author: CoreyRuda, CPress.Scott
  * Filename: creep.cpp
  * This is the creep class functions
  */

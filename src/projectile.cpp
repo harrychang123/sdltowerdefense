@@ -2,7 +2,7 @@
  * projectile.cpp
  *
  *  Created on: Mar 12, 2009
- *      Author: scott
+ *      Author: CPress.Scott
  */
 
 #include "projectile.h"

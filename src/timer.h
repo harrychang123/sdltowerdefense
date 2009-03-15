@@ -1,5 +1,5 @@
 /*
- * Author: Corey Ruda
+ * Author: CoreyRuda
  * Filename: timer.h
  *
  * This is a timer class
