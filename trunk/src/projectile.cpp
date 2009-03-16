@@ -102,10 +102,10 @@ int Projectile::get_splash_range()
 	return splash_range;
 }
 
-int Projectile::get_target()
+Creep* Projectile::get_target()
 {
 	//Returns the creep_id of the target
-	return ptr_target->get_id();
+	return ptr_target;
 }
 
 bool Projectile::does_accelerate()
@@ -176,57 +176,63 @@ void Projectile::set_ptr(Creep* a)
 void Projectile::collide()
 {
 	//Collide with the target
-	if(ptr_target->is_dead())
-	{//target is already dead, do nothing
-		disable();
-	} else {
-		//TODO: Add Splash Damage
-		ptr_target->set_hp(ptr_target->get_hp()-damage);
-		if(ptr_target->get_hp() <= 0)
-		{
-			ptr_target->die();
+	if(!disabled)
+	{
+		if(ptr_target->is_dead())
+		{//target is already dead, do nothing
+			disable();
+		} else {
+			//TODO: Add Splash Damage
+			ptr_target->set_hp(ptr_target->get_hp()-damage);
+			if(ptr_target->get_hp() <= 0)
+			{
+				ptr_target->die();
+			}
+			disable();
 		}
-		disable();
 	}
 }
 
 void Projectile::move()
 {
 	//Moves the projectile towards the target
-	if(!ptr_target->is_dead())
+	if(!disabled)
 	{
-		int tar_x=0, tar_y=0; 		//target position
-		double unit_x=0, unit_y=0; 	//unit vector x, y (A unit vector is a vector of length 1.0)
-		double dist = 0.0;
+		if(!ptr_target->is_dead())
+		{
+			int tar_x=0, tar_y=0; 		//target position
+			double unit_x=0, unit_y=0; 	//unit vector x, y (A unit vector is a vector of length 1.0)
+			double dist = 0.0;
 
-		tar_x = ptr_target->get_x()+10;
-		tar_y = ptr_target->get_y()+10;
+			tar_x = ptr_target->get_x()+10;
+			tar_y = ptr_target->get_y()+10;
 
-		//make a unit vector
-		dist = distance(tar_x, x, tar_y, y);
-		unit_x = (tar_x - x) / dist;
-		unit_y = (tar_y - y) / dist;
+			//make a unit vector
+			dist = distance(tar_x, x, tar_y, y);
+			unit_x = (tar_x - x) / dist;
+			unit_y = (tar_y - y) / dist;
 
-		//If we're supposed to accelerate
-		//TODO: Tweak the acceleration rate (possibly make a variable to hold the rate)
-		if(accelerate)
-			speed *= 1.05;
+			//If we're supposed to accelerate
+			//TODO: Tweak the acceleration rate (possibly make a variable to hold the rate)
+			if(accelerate)
+				speed *= 1.05;
 
-		if(dist<=speed)
-		{//Projectile should collide with the creep on this frame
-			x = tar_x;
-			y = tar_y;
-			collide();
+			if(dist<=speed)
+			{//Projectile should collide with the creep on this frame
+				x = tar_x;
+				y = tar_y;
+				collide();
+			} else {
+				//Projectile will not collide with the creep on this frame
+				//multiply unit vector by projectile's speed
+				unit_x *= speed;	//if the speed is 5, then the projectile moves 5 units total
+				unit_y *= speed;
+				x += unit_x;
+				y += unit_y;
+			}
 		} else {
-			//Projectile will not collide with the creep on this frame
-			//multiply unit vector by projectile's speed
-			unit_x *= speed;	//if the speed is 5, then the projectile moves 5 units total
-			unit_y *= speed;
-			x += unit_x;
-			y += unit_y;
+			disable();
 		}
-	} else {
-		disable();
 	}
 }
 
@@ -239,13 +245,16 @@ void Projectile::disable()
 bool Projectile::is_disabled()
 {
 	//Returns true if the projectile is disabled
-	if(ptr_target->get_hp() <= 0)
+	if(!disabled)
 	{
-		ptr_target->die();
-	}
-	if(ptr_target->is_dead())
-	{
-		disabled = true;
+		if(ptr_target->get_hp() <= 0)
+		{
+			ptr_target->die();
+		}
+		if(ptr_target->is_dead())
+		{
+			disabled = true;
+		}
 	}
 	return disabled;
 }

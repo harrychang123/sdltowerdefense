@@ -137,9 +137,6 @@ bool Turret::in_range(Creep* param)
 bool Turret::cooldown_is_up()
 {
 	//Returns true if the cooldown is up
-	cooldown_remaining-=1000.0/FRAMES_PER_SECOND;
-
-	//If tower is cooling down
 	if(cooldown_remaining>=0.0)
 	{
 		return false;
@@ -147,5 +144,11 @@ bool Turret::cooldown_is_up()
 		cooldown_remaining = cooldown;
 		return true;
 	}
+}
+
+void Turret::update_cooldown()
+{
+	//Updates the cooldown_remaining
+	cooldown_remaining-=1000.0/FRAMES_PER_SECOND;
 }
 

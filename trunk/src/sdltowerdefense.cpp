@@ -146,7 +146,7 @@ int main(int argc, char* args[]) {
 		if(time == 0)
 		{
 			//Spawn a creep
-			Creep temp(261,442,10,2,5,0,false,3,0);
+			Creep temp(261,442,300,2,5,0,false,3,0);
 			creeps.push_back(temp);
 			time = 120;
 		}
@@ -164,16 +164,19 @@ int main(int argc, char* args[]) {
 		{
 			for(int proj=0; proj < (signed int) projectiles.size(); proj++)
 			{
-				if(projectiles.at(proj).is_disabled())
-				{
-					//Delete this projectile
-					projectiles.erase(projectiles.begin() + proj);
-				} else {
+				if(!projectiles.at(proj).is_disabled())
 					projectiles.at(proj).move();
-				}
+			}
+			for(int f=projectiles.size()-1; f>-1; f--)
+			{
+				//Delete this projectile
+				if(projectiles.at(f).is_disabled())
+					projectiles.erase(projectiles.begin() + f);
 			}
 		}
 
+
+		//Creates projectiles
 		if(creeps.size()>=1)
 		{
 			if(turrets.size()>=1)
@@ -188,11 +191,12 @@ int main(int argc, char* args[]) {
 							if(turrets.at(l_t).cooldown_is_up())
 							{//If the cooldown is up
 								Projectile tmp_proj(turrets.at(l_t).get_x()+10, turrets.at(l_t).get_y()+10, 12.0, &creeps.at(l_c));
-								tmp_proj.set_damage(1);
+								tmp_proj.set_damage(10);
 								projectiles.push_back(tmp_proj);
 							}
 						}
 					}
+					turrets.at(l_t).update_cooldown();
 				}
 			}
 		}
@@ -203,7 +207,19 @@ int main(int argc, char* args[]) {
 			for(int i=0; i < (signed int)creeps.size();i++)
 			{
 				if(creeps.at(i).is_dead())
+				{
+					if(projectiles.size()>=1)
+					{//check to see if there are any projectiles pointing to this creep
+						for(int a_p=0; a_p<(signed int)projectiles.size(); a_p++)
+						{
+							if(projectiles.at(a_p).get_target()==&creeps.at(i))
+							{
+								projectiles.at(a_p).disable();
+							}
+						}
+					}
 					creeps.erase(creeps.begin()+i);
+				}
 			}
 		}
 
