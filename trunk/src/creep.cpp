@@ -172,9 +172,11 @@ void Creep::move(int state)
 	//Determine the direction the creep is moving
 
 	//Frame Setting controller
+	//Determines how many frames it has been since the creep last moved
 	static int rate = 0;
 
 	//If adding a frame wont go over, add one to the frame. otherwise, reset
+	//This is when the creep is healthy
 	switch(state)
 	case CREEP_NORTH:
 	{

@@ -134,4 +134,21 @@ double distance(double x2, double x1, double y2, double y1)
 	return sqrt(pow(x2-x1, 2)+pow(y2-y1, 2));
 }
 
+//Spawns a creep offscreen
+void spawn(Creep *ptr)
+{
+	//Static local variable
+	//Determines when to make a creep
+	static int time = 0;
 
+	if(time = 0)
+	{
+		//Spawn a creep
+		Creep temp(261,442,30,2,5,0,false,3);
+		ptr->push_back(temp);
+		time = WAIT;
+	}
+	else
+		time --;
+
+}
