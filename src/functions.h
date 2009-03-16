@@ -19,6 +19,7 @@
 #include <string>
 #include "creep.h"
 #include "constants.h"
+#include <vector>
 
 std::string intToStr(int);
 SDL_Surface* load_image(std::string);
@@ -38,7 +39,7 @@ public:
 };
 
 //Level Spawning
-void spawn(vector<Creep>*);
+void spawn(std::vector<Creep>*);
 
 
 Point clicked_grid(int, int);

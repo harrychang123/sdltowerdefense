@@ -135,7 +135,7 @@ double distance(double x2, double x1, double y2, double y1)
 }
 
 //Spawns a creep offscreen
-void spawn(Creep *ptr)
+void spawn(std::vector<Creep> *ptr)
 {
 	//Static local variable
 	//Determines when to make a creep
