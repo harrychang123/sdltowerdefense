@@ -45,7 +45,7 @@ SDL_Surface *blank_surface = NULL;//used for creating 25x25 sprite blits (format
 SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
 SDL_Surface *creep_sprites[CREEP_NUM];
 vector<Creep> creeps;
-vector<Creep> *creep_prt;
+vector<Creep> *creep_ptr;
 
 //Turret Array
 SDL_Surface *turret_sprites[TURRET_NUM][3];
@@ -121,14 +121,6 @@ int main(int argc, char* args[]) {
 
 				}
 			}
-			if(event.type == SDL_MOUSEMOTION)
-			{
-				//TODO: Take this out.  It is temporary to test projectiles (Creates a projectile at mouse everytime it moves)
-				Projectile tmp_proj(event.motion.x, event.motion.y, 1.0, &creeps.at(0));
-				tmp_proj.set_damage(1);
-				projectiles.push_back(tmp_proj);
-
-			}
 		}
 		/***************************************************************************
 		 LOGIC
@@ -141,8 +133,11 @@ int main(int argc, char* args[]) {
 			spawn(creep_ptr);
 		}
 
-		for(int i=0; i < (signed int)creeps.size(); i++)
-			creeps.at(i).move(direction);//calls the add_frame function in Creeps
+		if(creeps.size() >= 1)
+		{
+			for(int i=0; i < (signed int)creeps.size(); i++)
+				creeps.at(i).move(direction);//calls the add_frame function in Creeps
+		}
 
 		//Move the projectiles
 		if(projectiles.size()>=1)//Out-of-bounds error if we don't check the size
@@ -183,10 +178,13 @@ int main(int argc, char* args[]) {
 		}
 
 		//Determine what creeps are still alive. if dead, remove from the vector
-		for(int i=0; i < (signed int)creeps.size();i++)
+		if(creeps.size() >= 1)
 		{
-			if(creeps.at(i).is_dead())
-				creeps.erase(creeps.begin()+i);
+			for(int i=0; i < (signed int)creeps.size();i++)
+			{
+				if(creeps.at(i).is_dead())
+					creeps.erase(creeps.begin()+i);
+			}
 		}
 
 		/***************************************************************************
@@ -202,12 +200,15 @@ int main(int argc, char* args[]) {
 
 		//Loops through each creep in the creep vector and renders it
 		//TODO:Figure out why i cant add more then one creep on screen
-		for(int i = 0; i < (signed int)creeps.size();i++)
+		if(creeps.size() >= 1)
 		{
-			creeps.at(i).show(creeps.at(i).get_x(),creeps.at(i).get_y(),creep_sprites[i],screen,&creep_sprite_offsets[i][creeps.at(i).get_frame()]);
-			if(creeps.at(i).get_y() < -24)
+			for(int i = 0; i < (signed int)creeps.size();i++)
 			{
-				creeps.at(i).set_y(SCREEN_HEIGHT);
+				creeps.at(i).show(creeps.at(i).get_x(),creeps.at(i).get_y(),creep_sprites[i],screen,&creep_sprite_offsets[i][creeps.at(i).get_frame()]);
+				if(creeps.at(i).get_y() < -24)
+				{
+					creeps.at(i).set_y(SCREEN_HEIGHT);
+				}
 			}
 		}
 
