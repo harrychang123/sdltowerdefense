@@ -5,6 +5,9 @@
 #ifndef TURRET_H
 #define TURRET_H
 
+#include "creep.h"
+#include "functions.h"
+
 class Turret
 {
 private:
@@ -15,6 +18,7 @@ private:
 	int level;       //this is how upgraded the tower is
 	int range;       //This is how far the turret can shoot, TODO: determine pixel per int
 	int damage;      //How much damage the turret will do to a creep
+	double cooldown_remaining;	//This is how much time the cooldown has remaining
 	double cooldown; //This is how long the tower has to wait before shooting again
 
 public:
@@ -40,7 +44,11 @@ public:
 	void set_x(int);
 	void set_y(int);
 	void set_up_cost(int);
+
+	//Functions
 	void upgrade();
+	bool in_range(Creep*);
+	bool cooldown_is_up();	//Returns true if the cooldown is up
 };
 
 #endif /* TURRET_H */

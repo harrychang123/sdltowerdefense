@@ -239,5 +239,13 @@ void Projectile::disable()
 bool Projectile::is_disabled()
 {
 	//Returns true if the projectile is disabled
+	if(ptr_target->get_hp() <= 0)
+	{
+		ptr_target->die();
+	}
+	if(ptr_target->is_dead())
+	{
+		disabled = true;
+	}
 	return disabled;
 }

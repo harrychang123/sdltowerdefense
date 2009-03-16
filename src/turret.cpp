@@ -4,6 +4,7 @@
 //TODO: Determine the max level that a tower can be upgraded to
 
 #include "turret.h"
+#include "constants.h"
 
 //Class Turret Constructor
 Turret::Turret(int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,double tcooldown)
@@ -123,5 +124,28 @@ int Turret::get_level()
 	//Returns the level of upgrade to the tower
 	//TODO: Determine the max level a tower can be upgraded
 	return level;
+}
+
+bool Turret::in_range(Creep* param)
+{
+	//Returns true if the creep is in the tower's range
+	if(distance(param->get_x(), x, param->get_y(), y) <= range)
+		return true;	//In range
+	return false;		//Not in range
+}
+
+bool Turret::cooldown_is_up()
+{
+	//Returns true if the cooldown is up
+	cooldown_remaining-=1000.0/FRAMES_PER_SECOND;
+
+	//If tower is cooling down
+	if(cooldown_remaining>=0.0)
+	{
+		return false;
+	} else {
+		cooldown_remaining = cooldown;
+		return true;
+	}
 }
 

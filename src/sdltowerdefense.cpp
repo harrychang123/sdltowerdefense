@@ -73,8 +73,9 @@ int main(int argc, char* args[]) {
 	creep_clips();
 
 	//Initialize test objects
-	Turret tmp(365, 157, 50, 0, 20, 1, 1.0);
-	Creep ctmp(261,442, 300, 2,5, 0, false, 3);
+	//int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,double tcooldown
+	Turret tmp(365, 157, 50, 0, 275, 1, 250.0);
+	Creep ctmp(261,442, 30, 2,5, 0, false, 3);
 	creeps.push_back(ctmp);
 	turrets.push_back(tmp);
 
@@ -118,7 +119,7 @@ int main(int argc, char* args[]) {
 			if(event.type == SDL_MOUSEMOTION)
 			{
 				//TODO: Take this out.  It is temporary to test projectiles (Creates a projectile at mouse everytime it moves)
-				Projectile tmp_proj(event.motion.x, event.motion.y, 12.0, &creeps.at(0));
+				Projectile tmp_proj(event.motion.x, event.motion.y, 1.0, &creeps.at(0));
 				tmp_proj.set_damage(1);
 				projectiles.push_back(tmp_proj);
 
@@ -147,6 +148,29 @@ int main(int argc, char* args[]) {
 			}
 		}
 
+		if(creeps.size()>=1)
+		{
+			if(turrets.size()>=1)
+			{
+				for(int l_t=0; l_t<(signed int)turrets.size(); l_t++)
+				{//Loops through turrets
+					for(int l_c=0; l_c<(signed int)creeps.size(); l_c++)
+					{//Loops through creeps
+						if(turrets.at(l_t).in_range(&creeps.at(l_c)))
+						{//Creep is in range of this tower
+							//Fire a projectile!
+							if(turrets.at(l_t).cooldown_is_up())
+							{//If the cooldown is up
+								Projectile tmp_proj(turrets.at(l_t).get_x()+10, turrets.at(l_t).get_y()+10, 12.0, &creeps.at(l_c));
+								tmp_proj.set_damage(1);
+								projectiles.push_back(tmp_proj);
+							}
+						}
+					}
+				}
+			}
+		}
+
 		/***************************************************************************
 		RENDERING
 		***************************************************************************/
@@ -155,7 +179,7 @@ int main(int argc, char* args[]) {
 
 		for(int i=0; i<(signed int)turrets.size(); i++)
 		{
-			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_x(), turret_sprites[0][0], screen);
+			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_y(), turret_sprites[0][0], screen);
 		}
 
 		//Loops through each creep in the creep vector and renders it
