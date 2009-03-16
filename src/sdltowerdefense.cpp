@@ -171,6 +171,13 @@ int main(int argc, char* args[]) {
 			}
 		}
 
+		//Determine what creeps are still alive. if dead, remove from the vector
+		for(int i=0; i < (signed int)creeps.size();i++)
+		{
+			if(creeps.at(i).is_dead())
+				creeps.erase(creeps.begin()+i);
+		}
+
 		/***************************************************************************
 		RENDERING
 		***************************************************************************/
