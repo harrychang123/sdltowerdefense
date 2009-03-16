@@ -160,6 +160,15 @@ int main(int argc, char* args[]) {
 		}
 
 		//Move the projectiles
+		if(creeps.size() >= 1)
+		{
+			for(int i=0; i < (signed int)creeps.size();i++)
+			{
+				if(creeps.at(i).is_dead())
+					creeps.erase(creeps.begin()+i);
+			}
+		}
+
 		if(projectiles.size()>=1)//Out-of-bounds error if we don't check the size
 		{
 			for(int proj=0; proj < (signed int) projectiles.size(); proj++)

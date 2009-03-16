@@ -32,6 +32,7 @@ private:
 	bool slowed;      //Determines if the creep is slowed or not
 	int type;
 
+	int rate;       //How many frames its been since the creep last moved
 public:
 	//Class Constructor
 	Creep(int,int,int,int,int,int,bool,int,int);

@@ -36,6 +36,7 @@ Creep::Creep(int x,int y,int hp, int speed, int cd,int def, bool fly, int reward
 	slowed = false;
 	dead = false;
 	type = creep_t;
+	rate = 0;
 }
 
 /********************************************************************************
@@ -172,10 +173,6 @@ void Creep::move(int state)
 {
 	//TODO: Finish direction detection and set up movements for corresponding directions
 	//Determine the direction the creep is moving
-
-	//Frame Setting controller
-	//Determines how many frames it has been since the creep last moved
-	static int rate = 0;
 
 	//If adding a frame wont go over, add one to the frame. otherwise, reset
 	//This is when the creep is healthy
