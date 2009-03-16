@@ -47,6 +47,7 @@ public:
 
 	//Functions
 	void upgrade();
+	void update_cooldown();
 	bool in_range(Creep*);
 	bool cooldown_is_up();	//Returns true if the cooldown is up
 };

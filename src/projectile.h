@@ -36,7 +36,7 @@ public:
 	int get_damage();					//Returns the amount of regular damage
 	int get_splash_damage();			//Returns the amount of splash damage
 	int get_splash_range();				//Returns the splash range of the projectile
-	int get_target();					//return the creep_id of the target
+	Creep* get_target();					//return the creep_id of the target
 	bool is_disabled();					//Is the projectile disabled?
 	bool does_accelerate();				//Does the projectile accelerate as it moves?
 
