@@ -19,7 +19,7 @@ int creep_next_num = 0;
  Constructor
 ********************************************************************************/
 
-Creep::Creep(int x,int y,int hp, int speed, int cd,int def, bool fly, int reward)
+Creep::Creep(int x,int y,int hp, int speed, int cd,int def, bool fly, int reward,int creep_t)
 {
 	//Initialize the Creep object
 	hit_points = hp;
@@ -35,6 +35,7 @@ Creep::Creep(int x,int y,int hp, int speed, int cd,int def, bool fly, int reward
 	cooldown = cd;
 	slowed = false;
 	dead = false;
+	type = creep_t;
 }
 
 /********************************************************************************
@@ -105,6 +106,7 @@ int Creep::get_id()
 	//Returns the creep_id
 	return creep_id;
 }
+
 /*********************************************************************************
 Setter Functions
 **********************************************************************************/

@@ -21,7 +21,7 @@ const int NUM_COLUMNS      = 24;
 const int CREEP_NUM        = 4;
 const int TURRET_NUM 	   = 1;
 const std::string GAME_CAPTION = "SDL Tower Defense";
-const int WAIT             =  30;
+const int WAIT             =  10;
 
 //Creep Pixel Determinations
 const int CREEP_WIDTH      = 25;

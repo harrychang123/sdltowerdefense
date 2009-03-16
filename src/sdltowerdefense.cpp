@@ -76,19 +76,22 @@ int main(int argc, char* args[]) {
 	//Initialize test objects
 	//int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,double tcooldown
 	Turret tmp(365, 157, 50, 0, 275, 1, 250.0);
-	Creep ctmp(261,442, 30, 2,5, 0, false, 3);
-	creeps.push_back(ctmp);
+	//Creep ctmp(261,442, 30, 2,5, 0, false, 3);
+	//creeps.push_back(ctmp);
 	turrets.push_back(tmp);
 
 	//Set default direction
 	int direction = CREEP_NORTH;
 
+	//Gamestate
+	//bool spawning = true;
+	int time = 0;
+	//int *time_ptr = &time;
+
 	//The main loop.
 	while(quit == false)
 	{
-		//Gamestate
-		bool spawning = false;
-		//bool* spawn_prt = &spawning;
+
 
 		//Starts FPS management
 		fps.start();
@@ -127,11 +130,28 @@ int main(int argc, char* args[]) {
 		***************************************************************************/
 		//TODO: Add Logic Code
 		//Spawn creeps if needed
+		/*
 		if(spawning)
 		{
 			creep_ptr = &creeps;
-			spawn(creep_ptr);
+			spawn(creep_ptr,time_ptr);
 		}
+
+		if(creeps.size() ==  4)
+			spawning = false;
+		if(creeps.empty())
+			spawning = true;
+		*/
+
+		if(time == 0)
+		{
+			//Spawn a creep
+			Creep temp(261,442,10,2,5,0,false,3,0);
+			creeps.push_back(temp);
+			time = 120;
+		}
+		time --;
+
 
 		if(creeps.size() >= 1)
 		{
@@ -204,7 +224,9 @@ int main(int argc, char* args[]) {
 		{
 			for(int i = 0; i < (signed int)creeps.size();i++)
 			{
-				creeps.at(i).show(creeps.at(i).get_x(),creeps.at(i).get_y(),creep_sprites[i],screen,&creep_sprite_offsets[i][creeps.at(i).get_frame()]);
+				creeps.at(i).show(creeps.at(i).get_x(),creeps.at(i).get_y(),creep_sprites[0],screen,&creep_sprite_offsets[0][creeps.at(i).get_frame()]);
+
+				//If the creep reaches the edge, send it back to the bottom
 				if(creeps.at(i).get_y() < -24)
 				{
 					creeps.at(i).set_y(SCREEN_HEIGHT);
@@ -383,5 +405,23 @@ void set_creep_clip(int creep,int sprite,int row)
 	creep_sprite_offsets[creep][7].y = CREEP_HEIGHT;
 	creep_sprite_offsets[creep][7].w = CREEP_WIDTH;
 	creep_sprite_offsets[creep][7].h = CREEP_HEIGHT;
+
+}
+
+//Spawns a creep offscreen
+void spawn(vector<Creep> *ptr,int *time)
+{
+	//Static local variable
+	//Determines when to make a creep
+
+	/*
+	if(&time == 0)
+	{
+		//Spawn a creep
+		Creep temp(261,442,2,2,5,0,false,3);
+		ptr->push_back(temp);
+		*time = 0;
+	}
+	*/
 
 }

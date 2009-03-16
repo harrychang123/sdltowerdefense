@@ -30,10 +30,11 @@ private:
 	int creep_id;   //The Creeps ID
 	int face;       //This is the direction the creep is facing
 	bool slowed;      //Determines if the creep is slowed or not
+	int type;
 
 public:
 	//Class Constructor
-	Creep(int,int,int,int,int,int,bool,int);
+	Creep(int,int,int,int,int,int,bool,int,int);
 
 	//Getter function prototypes
 	int get_hp();

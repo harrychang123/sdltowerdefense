@@ -39,7 +39,7 @@ public:
 };
 
 //Level Spawning
-void spawn(std::vector<Creep>*);
+void spawn(std::vector<Creep>*,int*);
 
 
 Point clicked_grid(int, int);
