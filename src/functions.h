@@ -17,6 +17,7 @@
 #endif
 
 #include <string>
+#include "creep.h"
 #include "constants.h"
 
 std::string intToStr(int);
@@ -35,6 +36,9 @@ public:
 	Point(int, int);
 
 };
+
+//Level Spawning
+void spawn(vector<Creep>*);
 
 
 Point clicked_grid(int, int);

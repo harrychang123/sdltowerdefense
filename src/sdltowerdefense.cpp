@@ -45,6 +45,7 @@ SDL_Surface *blank_surface = NULL;//used for creating 25x25 sprite blits (format
 SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
 SDL_Surface *creep_sprites[CREEP_NUM];
 vector<Creep> creeps;
+vector<Creep> *creep_prt;
 
 //Turret Array
 SDL_Surface *turret_sprites[TURRET_NUM][3];
@@ -85,6 +86,10 @@ int main(int argc, char* args[]) {
 	//The main loop.
 	while(quit == false)
 	{
+		//Gamestate
+		bool spawning = false;
+		//bool* spawn_prt = &spawning;
+
 		//Starts FPS management
 		fps.start();
 
@@ -129,6 +134,12 @@ int main(int argc, char* args[]) {
 		 LOGIC
 		***************************************************************************/
 		//TODO: Add Logic Code
+		//Spawn creeps if needed
+		if(spawning)
+		{
+			creep_ptr = &creeps;
+			spawn(creep_ptr);
+		}
 
 		for(int i=0; i < (signed int)creeps.size(); i++)
 			creeps.at(i).move(direction);//calls the add_frame function in Creeps
