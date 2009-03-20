@@ -33,6 +33,7 @@ bool init();
 void clean_up();
 void creep_clips();
 void set_creep_clip(int,int,int);
+bool creep_in_array(int);
 
 /*Global Variables*/
 //The Screens pointers
@@ -449,4 +450,20 @@ void spawn(vector<Creep> *ptr,int *time)
 	}
 	*/
 
+}
+
+
+//Checks to see if the creep with the ID exists in the array
+//TODO:Implement the Function
+bool creep_in_array(int creep_id)
+{
+	//Checks the array for the creep for a matching ID
+	for(int i = 0;i < creeps.size(); i++)
+	{
+		//Check the ID
+		if(creeps.at(i).get_id() == creep_id)
+			return true;
+	}
+
+	return false;
 }
