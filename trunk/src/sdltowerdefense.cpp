@@ -79,9 +79,13 @@ int main(int argc, char* args[]) {
 	//Initialize test objects
 	//int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,double tcooldown
 	Turret tmp(365, 157, 50, 0, 275, 1, 250.0);
+	Turret tmp2(209, 157, 30, 0, 275, 1, 125.0);
+	tmp.set_type(0);
+	tmp2.set_type(1);
 	//Creep ctmp(261,442, 30, 2,5, 0, false, 3);
 	//creeps.push_back(ctmp);
 	turrets.push_back(tmp);
+	turrets.push_back(tmp2);
 
 	//Set default direction
 	int direction = CREEP_NORTH;
@@ -205,6 +209,7 @@ int main(int argc, char* args[]) {
 								Projectile tmp_proj(turrets.at(l_t).get_x()+10, turrets.at(l_t).get_y()+10, 12.0, &creeps.at(l_c));
 								tmp_proj.set_damage(10);
 								tmp_proj.set_target_id(creeps.at(l_c).get_id());
+								tmp_proj.set_type(turrets.at(l_t).get_type());
 								projectiles.push_back(tmp_proj);
 							}
 						}
@@ -244,7 +249,7 @@ int main(int argc, char* args[]) {
 
 		for(int i=0; i<(signed int)turrets.size(); i++)
 		{
-			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_y(), turret_sprites[0][0], screen);
+			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_y(), turret_sprites[turrets.at(i).get_type()][0], screen);
 		}
 
 		//Loops through each creep in the creep vector and renders it
@@ -288,8 +293,7 @@ int main(int argc, char* args[]) {
 			SDL_Delay((1000 / FRAMES_PER_SECOND) - fps.get_ticks());
 		}
 	}
-
-	clean_up();
+	//TODO: Add Cleanup routine that doesn't crash or freeze the game.
 	return 0;
 }
 
@@ -302,7 +306,12 @@ bool load_files()
 
 	//load the first turret
 	blank_surface = load_image("blank.bmp");
-	turret_sprites[0][0] = load_image("turret1.bmp");
+	turret_sprites[0][0] = load_image("blank.bmp");
+	turret_sprites[0][1] = load_image("blank.bmp");
+	turret_sprites[0][2] = load_image("blank.bmp");
+	turret_sprites[1][0] = load_image("blank.bmp");
+	turret_sprites[1][1] = load_image("blank.bmp");
+	turret_sprites[1][2] = load_image("blank.bmp");
 
 	//This loop loads the turret sprite sheet, and then loads each sprite into the turret_sprites array
 	SDL_Surface *turret_sprite_sheet = NULL;
@@ -311,19 +320,19 @@ bool load_files()
 	{
 		for(int b=0; b<3; b++)
 		{
-			SDL_Surface *tmp = NULL;
 			SDL_Rect myRect;
 			myRect.x=b*25;
 			myRect.y=a*25;
 			myRect.h=25;
 			myRect.w=25;
-			tmp = blank_surface;//make it 25x25, and formatted.
+			//turret_sprites[a][b] = blank_surface;//make it 25x25, and formatted.r
 			apply_surface(0, 0, turret_sprite_sheet, turret_sprites[a][b], &myRect);
 		}
 	}
 
 
 	turret_projectiles[0] = load_image("turret1_projectile.bmp");
+	turret_projectiles[1] = load_image("turret2_projectile.bmp");
 
 
 	//TODO: Clean this up and make it work for more than 1 creep
@@ -369,7 +378,7 @@ bool init()
 
 void clean_up()
 {//Delete all used surfaces
-	SDL_FreeSurface(screen);
+	//SDL_FreeSurface(screen);
 }
 
 //Sets the clips for the creep
