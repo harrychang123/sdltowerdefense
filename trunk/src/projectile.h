@@ -20,6 +20,7 @@ class Projectile
 	int damage;				//Amount of damage done to target
 	int splash_damage;		//Splash damage done to any targets in splash_range radius
 	int splash_range;		//Radius around the projectile's intended target where any other targets inside take damage
+	int target_id;
 	bool disabled;			//True if this projectile is disabled (will be removed from array in main on next loop)
 	bool accelerate;		//True if this projectile should accelerate while moving
 	Creep *ptr_target;		//Pointer to target
@@ -49,6 +50,7 @@ public:
 	void set_splash_damage(int);		//Sets the splash damage
 	void set_splash_range(int);			//Sets the splash range
 	void set_ptr(Creep*);				//Sets the pointer to the target creep
+	void set_target_id(int);			//Sets the creep_id of the target creep
 	void set_accelerate(bool);			//Sets whether or not projectile accelerates
 	void collide();						//Collide with target creep
 	void move();						//Move the creep (and do everything else moving related)

@@ -11,8 +11,14 @@
 #define CONSTANTS_H_
 
 #include <string>
+#include <vector>
+#include "creep.h"
+
 
 /*Global Variables*/
+extern std::vector<Creep> *CREEP_PTR; //This is defined in sdltowerdefense.cpp
+
+/*Constant Global Variables*/
 const int SCREEN_WIDTH     = 660;
 const int SCREEN_HEIGHT    = 469;
 const int SCREEN_BPP       = 32;
