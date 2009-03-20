@@ -246,6 +246,7 @@ void Projectile::disable()
 {
 	//Disables the projectile
 	disabled = true;
+	ptr_target = NULL;
 }
 
 bool Projectile::is_disabled()
@@ -257,6 +258,7 @@ bool Projectile::is_disabled()
 		if(!creep_in_array(target_id))
 		{
 			disabled = true;
+			ptr_target = NULL;
 			return disabled;
 		}
 		if(ptr_target->get_hp() <= 0)
@@ -266,6 +268,7 @@ bool Projectile::is_disabled()
 		if(ptr_target->is_dead())
 		{
 			disabled = true;
+			ptr_target = NULL;
 		}
 	}
 	return disabled;

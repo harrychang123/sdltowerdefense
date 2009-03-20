@@ -60,6 +60,12 @@ void Turret::set_cost(int num)
 	cost = num;
 }
 
+void Turret::set_type(int num)
+{
+	//Sets the type of tower
+	type = num;
+}
+
 void Turret::set_range(int num)
 {
 	//Sets the range of the tower
@@ -99,6 +105,12 @@ double Turret::get_cooldown()
 {
 	//Return the cooldown of the tower
 	return cooldown;
+}
+
+int Turret::get_type()
+{
+	//Returns the type of the tower
+	return type;
 }
 
 int Turret::get_x()
