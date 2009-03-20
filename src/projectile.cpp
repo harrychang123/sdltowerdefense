@@ -173,10 +173,16 @@ void Projectile::set_ptr(Creep* a)
 	ptr_target = a;
 }
 
+void Projectile::set_target_id(int param)
+{
+	//Sets the creep_id of the target
+	target_id = param;
+}
+
 void Projectile::collide()
 {
 	//Collide with the target
-	if(!disabled)
+	if(!is_disabled())
 	{
 		if(ptr_target->is_dead())
 		{//target is already dead, do nothing
@@ -196,7 +202,7 @@ void Projectile::collide()
 void Projectile::move()
 {
 	//Moves the projectile towards the target
-	if(!disabled)
+	if(!is_disabled())
 	{
 		if(!ptr_target->is_dead())
 		{
@@ -247,6 +253,12 @@ bool Projectile::is_disabled()
 	//Returns true if the projectile is disabled
 	if(!disabled)
 	{
+		//Check to see if our target is still in the creep array
+		if(!creep_in_array(target_id))
+		{
+			disabled = true;
+			return disabled;
+		}
 		if(ptr_target->get_hp() <= 0)
 		{
 			ptr_target->die();

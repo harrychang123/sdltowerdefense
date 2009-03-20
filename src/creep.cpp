@@ -13,7 +13,7 @@
 #include "constants.h"
 
 //Creep Next Num
-int creep_next_num = 0;
+static int creep_next_num = 0;
 
 /********************************************************************************
  Constructor
@@ -30,8 +30,7 @@ Creep::Creep(int x,int y,int hp, int speed, int cd,int def, bool fly, int reward
 	xpos = x;
 	ypos = y;
 	frame = 0;
-	creep_id = creep_next_num;
-	creep_next_num ++;
+	creep_id = ++creep_next_num;
 	cooldown = cd;
 	slowed = false;
 	dead = false;

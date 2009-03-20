@@ -134,4 +134,17 @@ double distance(double x2, double x1, double y2, double y1)
 	return sqrt(pow(x2-x1, 2)+pow(y2-y1, 2));
 }
 
+//Checks to see if the creep with the ID exists in the array
+bool creep_in_array(int creep_id)
+{
+	//Checks the array for the creep for a matching ID
+	for(int i = 0;i < (signed int)CREEP_PTR->size(); i++)
+	{
+		//Check the ID
+		if(CREEP_PTR->at(i).get_id() == creep_id)
+			return true;
+	}
+	return false;
+}
+
 

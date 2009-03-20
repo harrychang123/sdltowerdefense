@@ -41,6 +41,7 @@ SDL_Surface *background = NULL;
 SDL_Surface *screen = NULL;
 SDL_Surface *sidebar = NULL;
 SDL_Surface *blank_surface = NULL;//used for creating 25x25 sprite blits (formats surface)
+std::vector<Creep> *CREEP_PTR = NULL;
 
 //Creep Arrays
 SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
@@ -73,6 +74,7 @@ int main(int argc, char* args[]) {
 
 	//Set the creeps clips
 	creep_clips();
+	CREEP_PTR = &creeps;
 
 	//Initialize test objects
 	//int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,double tcooldown
@@ -202,6 +204,7 @@ int main(int argc, char* args[]) {
 							{//If the cooldown is up
 								Projectile tmp_proj(turrets.at(l_t).get_x()+10, turrets.at(l_t).get_y()+10, 12.0, &creeps.at(l_c));
 								tmp_proj.set_damage(10);
+								tmp_proj.set_target_id(creeps.at(l_c).get_id());
 								projectiles.push_back(tmp_proj);
 							}
 						}
@@ -450,20 +453,4 @@ void spawn(vector<Creep> *ptr,int *time)
 	}
 	*/
 
-}
-
-
-//Checks to see if the creep with the ID exists in the array
-//TODO:Implement the Function
-bool creep_in_array(int creep_id)
-{
-	//Checks the array for the creep for a matching ID
-	for(int i = 0;i < creeps.size(); i++)
-	{
-		//Check the ID
-		if(creeps.at(i).get_id() == creep_id)
-			return true;
-	}
-
-	return false;
 }
