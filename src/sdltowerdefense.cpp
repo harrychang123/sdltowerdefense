@@ -258,7 +258,6 @@ int main(int argc, char* args[]) {
 		/***************************************************************************
 		RENDERING
 		***************************************************************************/
-		//TODO: Add Rendering Code
 		apply_surface(0, 0, background, screen);
 
 		for(int i=0; i<(signed int)turrets.size(); i++)
@@ -273,7 +272,6 @@ int main(int argc, char* args[]) {
 		}
 
 		//Loops through each creep in the creep vector and renders it
-		//TODO:Figure out why i cant add more then one creep on screen
 		if(creeps.size() >= 1)
 		{
 			for(int i = 0; i < (signed int)creeps.size();i++)
