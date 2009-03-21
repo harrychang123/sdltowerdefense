@@ -13,10 +13,12 @@
 #include <string>
 #include <vector>
 #include "creep.h"
+#include "turret.h"
 
 
 /*Global Variables*/
 extern std::vector<Creep> *CREEP_PTR; //This is defined in sdltowerdefense.cpp
+extern std::vector<Turret> *TURRET_PTR; //This is defined in sdltowerdefense.cpp
 
 /*Constant Global Variables*/
 const int SCREEN_WIDTH     = 660;

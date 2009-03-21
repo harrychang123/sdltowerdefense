@@ -6,7 +6,7 @@
 #define TURRET_H
 
 #include "creep.h"
-#include "functions.h"
+#include <math.h>
 
 class Turret
 {
@@ -26,6 +26,7 @@ public:
 	//Class Turret prototypes
 	//Constructor
 	Turret(int,int,int,int,int,int,double);
+	Turret();
 
 	//Get functions
 	int get_cost();

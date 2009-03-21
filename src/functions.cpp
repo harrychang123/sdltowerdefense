@@ -147,4 +147,20 @@ bool creep_in_array(int creep_id)
 	return false;
 }
 
+bool is_tower_here(Point param)
+{
+	//Returns true if there is a tower at this x,y
+	if(TURRET_PTR->size() >= 1)
+	{
+		for(int a=0; a < (signed int)TURRET_PTR->size(); a++)
+		{
+			if(TURRET_PTR->at(a).get_x() == param.x && TURRET_PTR->at(a).get_y() == param.y)
+			{//if param.x,y == turret.x,y
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 

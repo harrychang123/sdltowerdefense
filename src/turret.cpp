@@ -5,6 +5,7 @@
 
 #include "turret.h"
 #include "constants.h"
+#include "functions.h"
 
 //Class Turret Constructor
 Turret::Turret(int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,double tcooldown)
@@ -18,6 +19,11 @@ Turret::Turret(int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,
 	damage = tdamage;
 	cooldown = tcooldown;
 	level = 1;
+}
+
+Turret::Turret()
+{
+	//Don't use this
 }
 
 
@@ -141,7 +147,9 @@ int Turret::get_level()
 bool Turret::in_range(Creep* param)
 {
 	//Returns true if the creep is in the tower's range
-	if(distance(param->get_x(), x, param->get_y(), y) <= range)
+	if(sqrt(pow(param->get_x()-x, 2)+pow(param->get_y()-y, 2)) <= range)
+
+
 		return true;	//In range
 	return false;		//Not in range
 }

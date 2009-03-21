@@ -37,11 +37,13 @@ bool creep_in_array(int);
 
 /*Global Variables*/
 //The Screens pointers
-SDL_Surface *background = NULL;
-SDL_Surface *screen = NULL;
-SDL_Surface *sidebar = NULL;
-SDL_Surface *blank_surface = NULL;//used for creating 25x25 sprite blits (formats surface)
-std::vector<Creep> *CREEP_PTR = NULL;
+SDL_Surface *background 	= NULL;
+SDL_Surface *screen 		= NULL;
+SDL_Surface *sidebar 		= NULL;
+SDL_Surface *blank_surface 	= NULL;//used for creating 25x25 sprite blits (formats surface)
+SDL_Surface *border  		= NULL;	//border (27x27) to draw around turrets
+vector<Creep> *CREEP_PTR 	= NULL;//global pointer to creeps array
+vector<Turret> *TURRET_PTR 	= NULL;//global pointer to turrets array
 
 //Creep Arrays
 SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
@@ -63,6 +65,8 @@ SDL_Event event;
 
 int main(int argc, char* args[]) {
 	bool quit = false;
+	bool draw_border = false;
+	Point border_pt;
 
 	//Initialize
 	if(init() == false)
@@ -75,6 +79,7 @@ int main(int argc, char* args[]) {
 	//Set the creeps clips
 	creep_clips();
 	CREEP_PTR = &creeps;
+	TURRET_PTR = &turrets;
 
 	//Initialize test objects
 	//int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,double tcooldown
@@ -119,15 +124,24 @@ int main(int argc, char* args[]) {
 					Point action;
 					action = check_click(event.button.x, event.button.y);
 
-					//TODO: Fix how a creep is slowed down
-					//Testing Creep Slowed
-					//creeps.at(0).slow();
+					//Check to see if any towers are here, or if we are placing a tower.
+					if(is_tower_here(action))
+					{//There is already a tower here.
+						//TODO: Select this tower & cancel the 'place tower' process if it was initiated
+						cout << "A Tower already exists at " << action.x << "," << action.y << "." << endl;
+						draw_border = true;
+						border_pt.x = action.x-1;
+						border_pt.y = action.y-1;
 
+					} else {
+						/*TODO: If placing a tower, check to see if we have enough money.
+						 * 		If we do, then subtract the cost from our money, and then
+						 * 		place the tower at 'action'.
+						 */
+						cout << "No Tower exists at " << action.x << "," << action.y << "." << endl;
+						draw_border = false;
 
-					cout << action.x << " " << action.y  << " " << endl;//Outputs coords to screen!
-
-					/*TODO: Check to see if any towers are here, or if we are placing a
-					        tower.  Offload this to a function. */
+					}
 
 				}
 			}
@@ -252,6 +266,12 @@ int main(int argc, char* args[]) {
 			apply_surface(turrets.at(i).get_x(), turrets.at(i).get_y(), turret_sprites[turrets.at(i).get_type()][0], screen);
 		}
 
+		//Draw the selection border
+		if(draw_border)
+		{
+			apply_surface(border_pt.x, border_pt.y, border, screen);
+		}
+
 		//Loops through each creep in the creep vector and renders it
 		//TODO:Figure out why i cant add more then one creep on screen
 		if(creeps.size() >= 1)
@@ -306,12 +326,7 @@ bool load_files()
 
 	//load the first turret
 	blank_surface = load_image("blank.bmp");
-	turret_sprites[0][0] = load_image("blank.bmp");
-	turret_sprites[0][1] = load_image("blank.bmp");
-	turret_sprites[0][2] = load_image("blank.bmp");
-	turret_sprites[1][0] = load_image("blank.bmp");
-	turret_sprites[1][1] = load_image("blank.bmp");
-	turret_sprites[1][2] = load_image("blank.bmp");
+	border = load_image("border.bmp");
 
 	//This loop loads the turret sprite sheet, and then loads each sprite into the turret_sprites array
 	SDL_Surface *turret_sprite_sheet = NULL;
@@ -325,6 +340,7 @@ bool load_files()
 			myRect.y=a*25;
 			myRect.h=25;
 			myRect.w=25;
+			turret_sprites[a][b] = load_image("blank.bmp");
 			//turret_sprites[a][b] = blank_surface;//make it 25x25, and formatted.r
 			apply_surface(0, 0, turret_sprite_sheet, turret_sprites[a][b], &myRect);
 		}
