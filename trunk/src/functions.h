@@ -21,14 +21,6 @@
 #include "constants.h"
 #include <vector>
 
-std::string intToStr(int);
-SDL_Surface* load_image(std::string);
-void apply_surface(int, int, SDL_Surface*, SDL_Surface*, SDL_Rect*);
-void apply_surface(int, int, SDL_Surface*, SDL_Surface*);
-double distance(int x2, int x1, int y2, int y1);
-double distance(double x2, double x1, double y2, double y1);
-bool creep_in_array(int);
-
 class Point
 {//Simple class to hold coordinates
 public:
@@ -38,6 +30,15 @@ public:
 	Point(int, int);
 
 };
+
+std::string intToStr(int);
+SDL_Surface* load_image(std::string);
+void apply_surface(int, int, SDL_Surface*, SDL_Surface*, SDL_Rect*);
+void apply_surface(int, int, SDL_Surface*, SDL_Surface*);
+double distance(int x2, int x1, int y2, int y1);
+double distance(double x2, double x1, double y2, double y1);
+bool creep_in_array(int);
+bool is_tower_here(Point);
 
 //Level Spawning
 void spawn(std::vector<Creep>*,int*);
