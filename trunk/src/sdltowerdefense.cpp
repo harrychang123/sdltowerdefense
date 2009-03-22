@@ -39,9 +39,10 @@ bool creep_in_array(int);
 //The Screens pointers
 SDL_Surface *background 	= NULL;
 SDL_Surface *screen 		= NULL;
-SDL_Surface *sidebar 		= NULL;
+SDL_Surface *sidebar 		= NULL;//sidebar for letting user buy towers
+SDL_Surface *toolbar		= NULL;//toolbar for displaying info/upgrades
 SDL_Surface *blank_surface 	= NULL;//used for creating 25x25 sprite blits (formats surface)
-SDL_Surface *border  		= NULL;	//border (27x27) to draw around turrets
+SDL_Surface *border  		= NULL;//border (27x27) to draw around turrets
 vector<Creep> *CREEP_PTR 	= NULL;//global pointer to creeps array
 vector<Turret> *TURRET_PTR 	= NULL;//global pointer to turrets array
 
@@ -281,7 +282,7 @@ int main(int argc, char* args[]) {
 				//If the creep reaches the edge, send it back to the bottom
 				if(creeps.at(i).get_y() < -24)
 				{
-					creeps.at(i).set_y(SCREEN_HEIGHT);
+					creeps.at(i).set_y(SCREEN_HEIGHT-90);
 				}
 			}
 		}
@@ -299,6 +300,7 @@ int main(int argc, char* args[]) {
 
 		//Draw the sidebar last
 		apply_surface(SCREEN_WIDTH-35, 0, sidebar, screen);
+		apply_surface(0, SCREEN_HEIGHT-90, toolbar, screen);
 
 		//Update the screen.
 		if(SDL_Flip(screen)==-1)
@@ -320,6 +322,7 @@ bool load_files()
 
 	background = load_image("background.bmp");
 	sidebar = load_image("sidebar.bmp");
+	toolbar = load_image("toolbar.bmp");
 
 
 	//load the first turret

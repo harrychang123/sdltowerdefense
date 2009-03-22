@@ -22,7 +22,7 @@ extern std::vector<Turret> *TURRET_PTR; //This is defined in sdltowerdefense.cpp
 
 /*Constant Global Variables*/
 const int SCREEN_WIDTH     = 660;
-const int SCREEN_HEIGHT    = 469;
+const int SCREEN_HEIGHT    = 559;
 const int SCREEN_BPP       = 32;
 const int NUM_ROWS         = 18;
 const int NUM_COLUMNS      = 24;
