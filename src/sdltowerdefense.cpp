@@ -23,6 +23,7 @@
 #include "creep.h"
 #include "timer.h"
 #include "projectile.h"
+#include "button.h"
 
 /* Namespaces */
 using namespace std;
@@ -58,6 +59,9 @@ SDL_Surface *turret_projectiles[TURRET_NUM];
 vector<Turret> turrets;
 vector<Projectile> projectiles;
 
+//Button Array
+vector<Button> buttons;
+
 //FPS Regulator
 Timer fps;
 
@@ -76,6 +80,13 @@ int main(int argc, char* args[]) {
 	//Load the files
 	if(load_files() == false)
 		return 1;
+
+	//Set up Menu
+	Button tmp_button(SCREEN_WIDTH-30, 5, 25, 25, turret_sprites[0][0], turret_sprites[0][1], turret_sprites[0][2]);
+	Button tmp_button2(SCREEN_WIDTH-30, 30, 25, 25, turret_sprites[1][0], turret_sprites[1][1], turret_sprites[1][2]);
+	buttons.push_back(tmp_button);
+	buttons.push_back(tmp_button2);
+
 
 	//Set the creeps clips
 	creep_clips();
@@ -141,29 +152,54 @@ int main(int argc, char* args[]) {
 						 */
 						cout << "No Tower exists at " << action.x << "," << action.y << "." << endl;
 						draw_border = false;
+						if(buttons.size()>=1)
+						{
+							for(int l_b=0; l_b < (signed int)buttons.size(); l_b++)
+							{
+								if(buttons.at(l_b).is_button(event.button.x, event.button.y))
+								{
+									buttons.at(l_b).set_down();
+									//TODO: Do w/e this button is supposed to do.
+								}
+							}
+						}
 
 					}
 
+				}
+			}
+			if(event.type == SDL_MOUSEBUTTONUP)
+			{
+				if(buttons.size()>=1)
+				{
+					for(int l_bu=0; l_bu < (signed int)buttons.size(); l_bu++)
+					{
+						if(buttons.at(l_bu).is_button(event.button.x, event.button.y))
+						{
+							buttons.at(l_bu).set_highlight();
+						}
+					}
+				}
+			}
+			if(event.type == SDL_MOUSEMOTION)
+			{
+				if(buttons.size()>=1)
+				{
+					for(int l_but=0; l_but < (signed int)buttons.size(); l_but++)
+					{
+						if(buttons.at(l_but).is_button(event.motion.x, event.motion.y))
+						{
+							buttons.at(l_but).set_highlight();
+						} else {
+							buttons.at(l_but).set_up();
+						}
+					}
 				}
 			}
 		}
 		/***************************************************************************
 		 LOGIC
 		***************************************************************************/
-		//TODO: Add Logic Code
-		//Spawn creeps if needed
-		/*
-		if(spawning)
-		{
-			creep_ptr = &creeps;
-			spawn(creep_ptr,time_ptr);
-		}
-
-		if(creeps.size() ==  4)
-			spawning = false;
-		if(creeps.empty())
-			spawning = true;
-		*/
 
 		if(time == 0)
 		{
@@ -172,7 +208,7 @@ int main(int argc, char* args[]) {
 			creeps.push_back(temp);
 			time = 120;
 		}
-		time --;
+		time--;
 
 
 		if(creeps.size() >= 1)
@@ -298,9 +334,29 @@ int main(int argc, char* args[]) {
 			}
 		}
 
-		//Draw the sidebar last
+		//Draw the sidebar/toolbar
 		apply_surface(SCREEN_WIDTH-35, 0, sidebar, screen);
 		apply_surface(0, SCREEN_HEIGHT-90, toolbar, screen);
+
+		//Draw buttons last
+		if(buttons.size() >= 1)
+		{
+			for(int i_b=0; i_b < (signed int)buttons.size(); i_b++)
+			{
+				if(buttons.at(i_b).is_down() == 0)
+				{
+					//Button is up
+					apply_surface(buttons.at(i_b).get_x(), buttons.at(i_b).get_y(), buttons.at(i_b).image, screen);
+				} else if(buttons.at(i_b).is_down() == 1)
+				{
+					//Button is highlighted
+					apply_surface(buttons.at(i_b).get_x(), buttons.at(i_b).get_y(), buttons.at(i_b).image_highlight, screen);
+				} else {
+					//Button is down
+					apply_surface(buttons.at(i_b).get_x(), buttons.at(i_b).get_y(), buttons.at(i_b).image_down, screen);
+				}
+			}
+		}
 
 		//Update the screen.
 		if(SDL_Flip(screen)==-1)
