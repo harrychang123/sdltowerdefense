@@ -94,14 +94,19 @@ int main(int argc, char* args[]) {
 	TURRET_PTR = &turrets;
 
 	//Initialize test objects
-	//int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,double tcooldown
-	Turret tmp(365, 157, 50, 0, 275, 1, 250.0);
-	Turret tmp2(209, 157, 30, 0, 275, 1, 125.0);
+	//int x, int y, int cost, int cost_up, int range, int damage, double cooldown
+	//Turret #1
+	Turret tmp(365, 157, 50, 0, 275, 10, 250.0);
 	tmp.set_type(0);
-	tmp2.set_type(1);
-	//Creep ctmp(261,442, 30, 2,5, 0, false, 3);
-	//creeps.push_back(ctmp);
+	tmp.set_splash_range(80);
+	tmp.set_splash_damage(10);
+	tmp.set_pspeed(12);
 	turrets.push_back(tmp);
+
+	//Turret #2
+	Turret tmp2(209, 157, 30, 0, 275, 6, 125.0);
+	tmp2.set_type(1);
+	tmp2.set_pspeed(10);
 	turrets.push_back(tmp2);
 
 	//Set default direction
@@ -257,8 +262,11 @@ int main(int argc, char* args[]) {
 							//Fire a projectile!
 							if(turrets.at(l_t).cooldown_is_up())
 							{//If the cooldown is up
-								Projectile tmp_proj(turrets.at(l_t).get_x()+10, turrets.at(l_t).get_y()+10, 12.0, &creeps.at(l_c));
-								tmp_proj.set_damage(10);
+								//Pass turret properties on to projectile
+								Projectile tmp_proj(turrets.at(l_t).get_x()+10, turrets.at(l_t).get_y()+10, turrets.at(l_t).get_pspeed(), &creeps.at(l_c));
+								tmp_proj.set_damage(turrets.at(l_t).get_damage());
+								tmp_proj.set_splash_damage(turrets.at(l_t).get_splash_damage());
+								tmp_proj.set_splash_range(turrets.at(l_t).get_splash_range());
 								tmp_proj.set_target_id(creeps.at(l_c).get_id());
 								tmp_proj.set_type(turrets.at(l_t).get_type());
 								projectiles.push_back(tmp_proj);

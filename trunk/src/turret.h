@@ -19,6 +19,9 @@ private:
 	int type;		 //The type of tower
 	int range;       //This is how far the turret can shoot, TODO: determine pixel per int
 	int damage;      //How much damage the turret will do to a creep
+	int splash_damage;//How much splash damage the turret does
+	int splash_range;//The range of the splash
+	double projectile_speed; //The speed of projectiles launched by this turret
 	double cooldown_remaining;	//This is how much time the cooldown has remaining
 	double cooldown; //This is how long the tower has to wait before shooting again
 
@@ -33,21 +36,27 @@ public:
 	int get_range();
 	int get_damage();
 	double get_cooldown();
+	double get_pspeed();
 	int get_x();
 	int get_y();
 	int get_cost_upgrade();
 	int get_level();
 	int get_type();
+	int get_splash_damage();
+	int get_splash_range();
 
 	//Set functions
 	void set_cost(int);
 	void set_range(int);
 	void set_damage(int);
 	void set_cooldown(double);
+	void set_pspeed(double);
 	void set_type(int);
 	void set_x(int);
 	void set_y(int);
 	void set_up_cost(int);
+	void set_splash_damage(int);
+	void set_splash_range(int);
 
 	//Functions
 	void upgrade();
