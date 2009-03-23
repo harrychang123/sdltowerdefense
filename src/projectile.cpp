@@ -8,6 +8,7 @@
 #include "projectile.h"
 #include "functions.h"
 #include "creep.h"
+#include "constants.h"
 
 Projectile::Projectile()
 {
@@ -194,6 +195,30 @@ void Projectile::collide()
 			{
 				ptr_target->die();
 			}
+
+			//Do splash damage
+			if(splash_damage > 0)
+			{
+				if(CREEP_PTR->size() >= 1)
+				{//if there are creeps then
+					for(int i=0; i<(signed int)CREEP_PTR->size(); i++)
+					{//for all creeps
+						if(CREEP_PTR->at(i).get_id() != ptr_target->get_id())
+						{//if not our target
+							if(distance(CREEP_PTR->at(i).get_x(), ptr_target->get_x(), CREEP_PTR->at(i).get_y(), ptr_target->get_y()) <= splash_range)
+							{//if in range
+								CREEP_PTR->at(i).set_hp(CREEP_PTR->at(i).get_hp() - splash_damage);
+
+								if(CREEP_PTR->at(i).get_hp() <= 0)
+								{//splash onto the creep
+									CREEP_PTR->at(i).die();
+								}
+							}
+						}
+					}
+				}
+			}
+
 			disable();
 		}
 	}

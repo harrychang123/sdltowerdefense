@@ -19,11 +19,25 @@ Turret::Turret(int x_pos,int y_pos,int tcost,int cost_up,int trange,int tdamage,
 	damage = tdamage;
 	cooldown = tcooldown;
 	level = 1;
+	splash_damage = 0;
+	splash_range = 0;
+	projectile_speed = 0;
 }
 
 Turret::Turret()
 {
 	//Don't use this
+	x = 0;
+	y = 0;
+	cost = 0;
+	cost_upgrade = 0;
+	range = 0;
+	damage = 0;
+	cooldown = 0;
+	level = 1;
+	splash_damage = 0;
+	splash_range = 0;
+	projectile_speed = 0;
 }
 
 
@@ -79,10 +93,28 @@ void Turret::set_range(int num)
 	range = num;
 }
 
+void Turret::set_pspeed(double num)
+{
+	//Sets the speed of projectiles launched by this turret
+	projectile_speed = num;
+}
+
 void Turret::set_damage(int num)
 {
 	//Sets the damage the tower can do
 	damage = num;
+}
+
+void Turret::set_splash_damage(int num)
+{
+	//Sets the amount of splash damage (0 if no splash)
+	splash_damage = num;
+}
+
+void Turret::set_splash_range(int num)
+{
+	//Sets the range of the splash damage
+	splash_range = num;
 }
 
 /*****************************************************************************
@@ -142,6 +174,24 @@ int Turret::get_level()
 	//Returns the level of upgrade to the tower
 	//TODO: Determine the max level a tower can be upgraded
 	return level;
+}
+
+int Turret::get_splash_damage()
+{
+	//Returns the amount of splash damage
+	return splash_damage;
+}
+
+int Turret::get_splash_range()
+{
+	//Returns the range of the splash damage
+	return splash_range;
+}
+
+double Turret::get_pspeed()
+{
+	//Returns the speed of projectiles launched by this turret
+	return projectile_speed;
 }
 
 bool Turret::in_range(Creep* param)
