@@ -117,6 +117,12 @@ void Turret::set_splash_range(int num)
 	splash_range = num;
 }
 
+void Turret::set_accelerate(bool val)
+{
+	//Sets whether or not the projectiles accelerate
+	accelerate = val;
+}
+
 /*****************************************************************************
 Getter Functions
 ******************************************************************************/
@@ -192,6 +198,12 @@ double Turret::get_pspeed()
 {
 	//Returns the speed of projectiles launched by this turret
 	return projectile_speed;
+}
+
+bool Turret::does_accelerate()
+{
+	//Returns true if the projectiles accelerate
+	return accelerate;
 }
 
 bool Turret::in_range(Creep* param)

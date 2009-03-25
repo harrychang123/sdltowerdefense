@@ -17,8 +17,9 @@
 
 
 /*Global Variables*/
-extern std::vector<Creep> *CREEP_PTR; //This is defined in sdltowerdefense.cpp
+extern std::vector<Creep> *CREEP_PTR;   //This is defined in sdltowerdefense.cpp
 extern std::vector<Turret> *TURRET_PTR; //This is defined in sdltowerdefense.cpp
+extern int MONEY;						//This is defined in sdltowerdefense.cpp
 
 /*Constant Global Variables*/
 const int SCREEN_WIDTH     = 660;
@@ -27,7 +28,7 @@ const int SCREEN_BPP       = 32;
 const int NUM_ROWS         = 18;
 const int NUM_COLUMNS      = 24;
 const int CREEP_NUM        = 4;
-const int TURRET_NUM 	   = 2;
+const int TURRET_NUM 	   = 3;
 const std::string GAME_CAPTION = "SDL Tower Defense";
 const int WAIT             =  10;
 

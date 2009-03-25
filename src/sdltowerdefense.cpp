@@ -46,6 +46,7 @@ SDL_Surface *blank_surface 	= NULL;//used for creating 25x25 sprite blits (forma
 SDL_Surface *border  		= NULL;//border (27x27) to draw around turrets
 vector<Creep> *CREEP_PTR 	= NULL;//global pointer to creeps array
 vector<Turret> *TURRET_PTR 	= NULL;//global pointer to turrets array
+int MONEY;
 
 //Creep Arrays
 SDL_Rect creep_sprite_offsets[CREEP_NUM][16];
@@ -71,7 +72,24 @@ SDL_Event event;
 int main(int argc, char* args[]) {
 	bool quit = false;
 	bool draw_border = false;
-	Point border_pt;
+	Point border_pt;		//Coordinates for Selection Border
+
+	//Place_turret structure holds all data that we need when placing a new turret
+	struct Place_turret
+	{
+		int type;
+		int x;
+		int y;
+		int cost;
+		bool active;
+	};
+	//Create an initialize the Place turret
+	Place_turret new_turret;
+	new_turret.type = 0;
+	new_turret.x = 0;
+	new_turret.y = 0;
+	new_turret.active = false;
+
 
 	//Initialize
 	if(init() == false)
@@ -84,8 +102,13 @@ int main(int argc, char* args[]) {
 	//Set up Menu
 	Button tmp_button(SCREEN_WIDTH-30, 5, 25, 25, turret_sprites[0][0], turret_sprites[0][1], turret_sprites[0][2]);
 	Button tmp_button2(SCREEN_WIDTH-30, 30, 25, 25, turret_sprites[1][0], turret_sprites[1][1], turret_sprites[1][2]);
+	Button tmp_button3(SCREEN_WIDTH-30, 55, 25, 25, turret_sprites[2][0], turret_sprites[2][1], turret_sprites[2][2]);
+	tmp_button.set_id(0);
+	tmp_button2.set_id(1);
+	tmp_button3.set_id(2);
 	buttons.push_back(tmp_button);
 	buttons.push_back(tmp_button2);
+	buttons.push_back(tmp_button3);
 
 
 	//Set the creeps clips
@@ -96,7 +119,7 @@ int main(int argc, char* args[]) {
 	//Initialize test objects
 	//int x, int y, int cost, int cost_up, int range, int damage, double cooldown
 	//Turret #1
-	Turret tmp(365, 157, 50, 0, 275, 10, 250.0);
+	Turret tmp(365, 157, 50, 0, 275, 17, 250.0);
 	tmp.set_type(0);
 	tmp.set_splash_range(80);
 	tmp.set_splash_damage(10);
@@ -108,6 +131,13 @@ int main(int argc, char* args[]) {
 	tmp2.set_type(1);
 	tmp2.set_pspeed(10);
 	turrets.push_back(tmp2);
+
+	//Turret #3
+	Turret tmp3(573, 79, 30, 0, 700, 40, 400.0);
+	tmp3.set_type(2);
+	tmp3.set_pspeed(6);
+	tmp3.set_accelerate(true);
+	turrets.push_back(tmp3);
 
 	//Set default direction
 	int direction = CREEP_NORTH;
@@ -132,6 +162,20 @@ int main(int argc, char* args[]) {
 		{
 			if(event.type == SDL_QUIT) //If the user Xs out, quit
 				quit = true;
+			if(event.type == SDL_KEYDOWN)
+			{
+				if(event.key.keysym.sym == SDLK_ESCAPE)
+				{
+					if(new_turret.active)
+					{
+						new_turret.active = false;
+					} else if(draw_border)
+					{
+						draw_border = false;
+					}
+				}
+			}
+
 			//If a mouse button was pressed
 			if(event.type == SDL_MOUSEBUTTONDOWN)
 			{
@@ -144,7 +188,12 @@ int main(int argc, char* args[]) {
 					//Check to see if any towers are here, or if we are placing a tower.
 					if(is_tower_here(action))
 					{//There is already a tower here.
-						//TODO: Select this tower & cancel the 'place tower' process if it was initiated
+						//Cancel any current tower building process
+						if(new_turret.active)
+						{
+							new_turret.active = false;
+						}
+
 						cout << "A Tower already exists at " << action.x << "," << action.y << "." << endl;
 						draw_border = true;
 						border_pt.x = action.x-1;
@@ -157,20 +206,112 @@ int main(int argc, char* args[]) {
 						 */
 						cout << "No Tower exists at " << action.x << "," << action.y << "." << endl;
 						draw_border = false;
-						if(buttons.size()>=1)
+
+						//Check to see if we tried to place a tower
+						if(new_turret.active == true && action.x != -1 && action.y != -1)
 						{
-							for(int l_b=0; l_b < (signed int)buttons.size(); l_b++)
+							//TODO: Check to see if we have enough money
+							//TODO: Subtract cost from our money
+							//CREATE TURRET
+							//int x, int y, int cost, int cost_up, int range, int damage, double cooldown
+							Turret tmp_tur(action.x, action.y, 50, 0, 275, 17, 250.0);
+							//Turret tmp_tur(action.x, action.y, 30, 0, 275, 6, 125.0);
+							//Turret tmp_tur(action.x, action.y, 30, 0, 700, 40, 400.0);
+							switch(new_turret.type)
 							{
-								if(buttons.at(l_b).is_button(event.button.x, event.button.y))
-								{
-									buttons.at(l_b).set_down();
-									//TODO: Do w/e this button is supposed to do.
-								}
+							case 0:
+								tmp_tur.set_type(0);
+								tmp_tur.set_cost(50);
+								tmp_tur.set_up_cost(0);
+								tmp_tur.set_range(275);
+								tmp_tur.set_damage(17);
+								tmp_tur.set_cooldown(250);
+								tmp_tur.set_splash_range(80);
+								tmp_tur.set_splash_damage(10);
+								tmp_tur.set_pspeed(12);
+								turrets.push_back(tmp_tur);
+								new_turret.active = false;
+								break;
+							case 1:
+								//Turret #2
+								tmp_tur.set_type(1);
+								tmp_tur.set_cost(30);
+								tmp_tur.set_up_cost(0);
+								tmp_tur.set_range(275);
+								tmp_tur.set_damage(6);
+								tmp_tur.set_cooldown(125);
+								tmp_tur.set_splash_range(0);
+								tmp_tur.set_splash_damage(0);
+								tmp_tur.set_pspeed(10);
+								turrets.push_back(tmp_tur);
+								new_turret.active = false;
+								break;
+							case 2:
+								//Turret #3
+								tmp_tur.set_type(2);
+								tmp_tur.set_cost(30);
+								tmp_tur.set_up_cost(0);
+								tmp_tur.set_range(700);
+								tmp_tur.set_damage(40);
+								tmp_tur.set_cooldown(400);
+								tmp_tur.set_splash_range(0);
+								tmp_tur.set_splash_damage(0);
+								tmp_tur.set_pspeed(6);
+								tmp_tur.set_accelerate(true);
+								turrets.push_back(tmp_tur);
+								new_turret.active = false;
+								break;
+							default:
+								//TODO Implement other towers
+								break;
 							}
 						}
 
-					}
+						if(action.x == -1 && action.y == -1)
+						{//User clicked on a panel
+							//Check to see if we clicked on a button
+							if(buttons.size()>=1)
+							{
+								for(int l_b=0; l_b < (signed int)buttons.size(); l_b++)
+								{
+									if(buttons.at(l_b).is_button(event.button.x, event.button.y))
+									{
+										buttons.at(l_b).set_down();
 
+										//Do whatever this button is supposed to do
+										//based on its button ID
+										switch(buttons.at(l_b).get_id())
+										{
+										case 0:
+											new_turret.type = 0;
+											new_turret.active = true;
+											new_turret.x = event.button.x-13;
+											new_turret.y = event.button.y-13;
+											new_turret.cost = 0;//TODO: Change this
+											break;
+										case 1:
+											new_turret.type = 1;
+											new_turret.active = true;
+											new_turret.x = event.button.x-13;
+											new_turret.y = event.button.y-13;
+											new_turret.cost = 0;//TODO: Change this
+											break;
+										case 2:
+											new_turret.type = 2;
+											new_turret.active = true;
+											new_turret.x = event.button.x-13;
+											new_turret.y = event.button.y-13;
+											new_turret.cost = 0;//TODO: Change this
+											break;
+										default:
+											//TODO: Implement other button IDs
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 			if(event.type == SDL_MOUSEBUTTONUP)
@@ -188,13 +329,22 @@ int main(int argc, char* args[]) {
 			}
 			if(event.type == SDL_MOUSEMOTION)
 			{
+				if(new_turret.active)
+				{
+					//use check_click to convert x,y to grid coordinates
+					Point action;
+					action = check_click(event.motion.x, event.motion.y);
+					new_turret.x = action.x;
+					new_turret.y = action.y;
+				}
 				if(buttons.size()>=1)
 				{
 					for(int l_but=0; l_but < (signed int)buttons.size(); l_but++)
 					{
 						if(buttons.at(l_but).is_button(event.motion.x, event.motion.y))
 						{
-							buttons.at(l_but).set_highlight();
+							if(buttons.at(l_but).is_down() != 2)//If not down already
+								buttons.at(l_but).set_highlight();
 						} else {
 							buttons.at(l_but).set_up();
 						}
@@ -209,7 +359,7 @@ int main(int argc, char* args[]) {
 		if(time == 0)
 		{
 			//Spawn a creep
-			Creep temp(261,442,300,2,5,0,false,3,0);
+			Creep temp(261,442,4500,2,5,0,false,3,0);
 			creeps.push_back(temp);
 			time = 120;
 		}
@@ -267,6 +417,7 @@ int main(int argc, char* args[]) {
 								tmp_proj.set_damage(turrets.at(l_t).get_damage());
 								tmp_proj.set_splash_damage(turrets.at(l_t).get_splash_damage());
 								tmp_proj.set_splash_range(turrets.at(l_t).get_splash_range());
+								tmp_proj.set_accelerate(turrets.at(l_t).does_accelerate());
 								tmp_proj.set_target_id(creeps.at(l_c).get_id());
 								tmp_proj.set_type(turrets.at(l_t).get_type());
 								projectiles.push_back(tmp_proj);
@@ -342,6 +493,14 @@ int main(int argc, char* args[]) {
 			}
 		}
 
+		//Draw any turrets in the creation process
+		if(new_turret.active)
+		{
+			//Only draw the turret if it can be fitted to a grid slot
+			if(new_turret.x != -1 && new_turret.y != -1)
+				apply_surface(new_turret.x, new_turret.y, turret_sprites[new_turret.type][0], screen);
+		}
+
 		//Draw the sidebar/toolbar
 		apply_surface(SCREEN_WIDTH-35, 0, sidebar, screen);
 		apply_surface(0, SCREEN_HEIGHT-90, toolbar, screen);
@@ -414,6 +573,7 @@ bool load_files()
 
 	turret_projectiles[0] = load_image("turret1_projectile.bmp");
 	turret_projectiles[1] = load_image("turret2_projectile.bmp");
+	turret_projectiles[2] = load_image("turret3_projectile.bmp");
 
 
 	//TODO: Clean this up and make it work for more than 1 creep

@@ -25,6 +25,7 @@ private:
 	int w;
 	int h;
 	int down;
+	int ID;
 
 public:
 	SDL_Surface *image;
@@ -37,8 +38,10 @@ public:
 	int get_y();
 	int get_w();
 	int get_h();
+	int get_id();
 	int is_down();//0=up, 1=highlight, 2=down
 	bool is_button(int, int);
+	void set_id(int);
 	void set_x(int);
 	void set_y(int);
 	void set_w(int);
