@@ -45,7 +45,7 @@ void spawn(std::vector<Creep>*,int*);
 
 
 Point clicked_grid(int, int);
-Point check_click(int, int);
+Point check_click(int, int);		//Converts x,y to grid coordinates
 
 
 #endif /* FUNCTIONS_H_ */

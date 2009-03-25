@@ -59,6 +59,11 @@ int Button::get_h()
 	return h;
 }
 
+int Button::get_id()
+{
+	return ID;
+}
+
 int Button::is_down()
 {
 	return down;
@@ -92,6 +97,11 @@ void Button::set_w(int param)
 void Button::set_h(int param)
 {
 	h = param;
+}
+
+void Button::set_id(int param)
+{
+	ID = param;
 }
 
 void Button::set_down()

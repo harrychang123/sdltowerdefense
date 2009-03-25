@@ -21,6 +21,7 @@ private:
 	int damage;      //How much damage the turret will do to a creep
 	int splash_damage;//How much splash damage the turret does
 	int splash_range;//The range of the splash
+	bool accelerate; //Do the turret's projectiles accelerate?
 	double projectile_speed; //The speed of projectiles launched by this turret
 	double cooldown_remaining;	//This is how much time the cooldown has remaining
 	double cooldown; //This is how long the tower has to wait before shooting again
@@ -44,6 +45,7 @@ public:
 	int get_type();
 	int get_splash_damage();
 	int get_splash_range();
+	bool does_accelerate();
 
 	//Set functions
 	void set_cost(int);
@@ -57,6 +59,7 @@ public:
 	void set_up_cost(int);
 	void set_splash_damage(int);
 	void set_splash_range(int);
+	void set_accelerate(bool);
 
 	//Functions
 	void upgrade();
